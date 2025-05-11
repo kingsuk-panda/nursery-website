@@ -5,8 +5,12 @@
   background-position: center;
   color: white;
   text-align: center;
-  padding: 100px 0; /* Adjust padding as needed */
+  padding: 100px 20px; /* Added horizontal padding for smaller screens */
   position: relative; /* For overlay */
+  min-height: 70vh; /* Ensure it takes a good portion of the viewport height */
+  display: flex; /* For centering content */
+  align-items: center; /* For centering content */
+  justify-content: center; /* For centering content */
 }
 
 .hero::before {
@@ -16,35 +20,64 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+  background-color: rgba(0, 0, 0, 0.5); /* Slightly increased overlay for better contrast */
 }
 
 .content {
   position: relative; /* Stack above overlay */
   z-index: 1; /* Ensure content is above the overlay */
+  max-width: 800px; /* Limit width of text content for readability */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
-  font-size: 3em;
+  font-size: clamp(2.5em, 5vw, 3.5em); /* Responsive font size */
   margin-bottom: 20px;
+  line-height: 1.2;
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0; /* Start hidden before animation */
+  font-weight: 700; /* Ensure it uses bold variant of Roboto Slab */
 }
 
 .subtitle {
-  font-size: 1.5em;
+  font-size: clamp(1.2em, 3vw, 1.5em); /* Responsive font size */
   margin-bottom: 30px;
+  line-height: 1.5; /* Adjusted for better readability */
+  animation: fadeInUp 0.8s ease-out 0.2s forwards; /* Delay by 0.2s */
+  opacity: 0; /* Start hidden */
+  font-weight: 400; /* Ensure it uses regular variant of Open Sans (or Roboto Slab if preferred) */
 }
 
 .button {
   background-color: var(--primary-color);
   color: white;
-  padding: 15px 30px;
+  padding: 15px 35px; /* Adjusted padding */
   border: none;
   border-radius: 6px;
-  font-size: 1.2em;
+  font-size: clamp(1em, 2.5vw, 1.2em); /* Responsive font size */
+  font-weight: bold; /* Make button text bold */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: fadeInUp 0.8s ease-out 0.4s forwards; /* Delay by 0.4s */
+  opacity: 0; /* Start hidden */
+  display: inline-block; /* Ensures it behaves well with text-align center */
 }
 
-.button:hover {
+.button:hover,
+.button:focus { /* Added focus for accessibility */
   background-color: var(--secondary-color);
+  transform: translateY(-3px); /* Slightly more lift */
+  outline: none; /* Remove default focus outline if custom styling is sufficient */
 }
