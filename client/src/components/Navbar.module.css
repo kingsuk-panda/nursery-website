@@ -11,9 +11,9 @@
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: flex-start; /* Align items to the start */
+  justify-content: flex-start; /* Align items to the start, or 'center' / 'flex-end' as preferred */
   align-items: center;
-  gap: 20px; /* Increased spacing between items */
+  gap: 20px; /* Spacing between items */
 }
 
 .li {
@@ -22,12 +22,21 @@
 
 .a {
   text-decoration: none;
-  color: white; /* White text color */
-  padding: 10px 15px; /* Increased padding */
+  color: var(--nav-text-color); /* Using CSS variable from App.css */
+  padding: 10px 15px;
   border-radius: 6px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: block; /* Ensures padding is applied correctly */
 }
 
 .a:hover {
-  background-color: var(--secondary-color); /* Slightly lighter green on hover */
+  background-color: var(--secondary-color);
+  color: white; /* Keep text white or adjust if secondary-color is very light */
+}
+
+.active {
+  background-color: var(--secondary-color); /* Or a darker shade of primary for distinction */
+  /* font-weight: bold; */ /* Optional: make active link bold */
+  /* border-bottom: 2px solid var(--nav-text-color); */ /* Alternative active style */
+  /* padding-bottom: 8px; */ /* Adjust if using border-bottom */
 }
