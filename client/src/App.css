@@ -7,11 +7,12 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
 }
 
 :root {
-  --primary-color: #4CAF50;       /* A calming green */
-  --secondary-color: #8BC34A;     /* A slightly lighter green */
-  --background-color: #F5F5F5;    /* Light gray background */
+  --primary-color: #4CAF50;      /* A calming green */
+  --secondary-color: #8BC34A;    /* A slightly lighter green */
+  --background-color: #F5F5F5;   /* Light gray background */
   --text-color: #333333;         /* Dark gray text */
-  --accent-color: #A1887F;         /* Earthy brown for accents */
+  --accent-color: #A1887F;       /* Earthy brown for accents */
+  --nav-text-color: white;       /* Text color for navbar links */
 }
 
 body {
@@ -19,7 +20,7 @@ body {
   color: var(--text-color);
   font-family: 'Open Sans', sans-serif; /* Use Open Sans for general text */
   margin: 0;
-  padding: 0;
+  padding: 0; /* Ensure no default padding */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -27,50 +28,21 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700; /* Bold headings */
 }
 
-.container {
-  padding: 20px;
+.container { /* This class is used in App.js to wrap content */
+  padding: 0px 20px 20px 20px; /* Removed top padding as Navbar has its own */
   max-width: 1200px; /* Limit content width for better readability */
   margin: 0 auto; /* Center content horizontally */
 }
 
-/* Remove default React styling */
-.App {
-  text-align: center; /* Consider removing if you want more control */
+/* General link styling (optional, if you want to style non-component links) */
+/*
+a {
+  color: var(--primary-color);
+  text-decoration: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  /* You can keep this if you plan to have a header in some pages */
-  /* Modify as needed for your design */
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb; /* Consider changing this to match your color scheme */
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+*/
