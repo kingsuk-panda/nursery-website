@@ -1,48 +1,48 @@
 /* client/src/App.css */
 
-/* Reset some default styles */
-body, h1, h2, h3, h4, h5, h6, p, ul, ol {
-  margin: 0;
-  padding: 0;
-}
-
+/* ... (your existing :root, body, h1-h6 resets and styles remain the same) ... */
 :root {
-  --primary-color: #4CAF50;      /* A calming green */
-  --secondary-color: #8BC34A;    /* A slightly lighter green */
-  --background-color: #F5F5F5;   /* Light gray background */
-  --text-color: #333333;         /* Dark gray text */
-  --accent-color: #A1887F;       /* Earthy brown for accents */
-  --nav-text-color: white;       /* Text color for navbar links */
+  --primary-color: #4CAF50;
+  --secondary-color: #8BC34A;
+  --background-color: #F5F5F5;
+  --text-color: #333333;
+  --accent-color: #A1887F;
+  --nav-text-color: white;
+  --navbar-height: 70px; /* Approximate height of your navbar, adjust as needed */
 }
 
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: 'Open Sans', sans-serif; /* Use Open Sans for general text */
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
-  padding: 0; /* Ensure no default padding */
+  padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto Slab', serif; /* Use Roboto Slab for headings */
-  font-weight: 700; /* Bold headings */
+  font-family: 'Roboto Slab', serif;
+  font-weight: 700;
 }
 
-.container { /* This class is used in App.js to wrap content */
-  padding: 0px 20px 20px 20px; /* Removed top padding as Navbar has its own */
-  max-width: 1200px; /* Limit content width for better readability */
-  margin: 0 auto; /* Center content horizontally */
+
+/* Container for general page content, not for full-bleed hero */
+.container {
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* General link styling (optional, if you want to style non-component links) */
-/*
-a {
-  color: var(--primary-color);
-  text-decoration: none;
+/* Class to push down content when it's NOT the hero page (or content after hero) */
+.page-content {
+  padding-top: var(--navbar-height); /* Push content below the fixed navbar */
+  padding-bottom: 20px; /* Standard bottom padding */
 }
 
-a:hover {
-  color: var(--secondary-color);
-  text-decoration: underline;
+/* Class for content that appears after the full-screen hero on the Home page */
+.page-content-after-hero {
+  padding-top: 40px; /* Space between hero bottom and this content */
+  padding-bottom: 20px;
+  /* This content is already below the 100vh hero, so navbar overlap is not an issue here */
 }
-*/
