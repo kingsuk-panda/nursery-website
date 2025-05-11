@@ -1,9 +1,10 @@
 import React from 'react';
-import styles from './HeroSection.module.css'; // Import CSS module
+import styles from './HeroSection.module.css';
+import heroImage from '../assets/hero-image.jpg'; // Import the image
 
 function HeroSection() {
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} style={{ backgroundImage: `url(${heroImage})` }}> {/* Inline style */}
       <div className={styles.content}>
         <h1 className={styles.title}>Bring Nature Home</h1>
         <p className={styles.subtitle}>Discover a wide variety of plants to brighten your space.</p>
