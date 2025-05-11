@@ -1,10 +1,12 @@
 import React from 'react';
+import HeroSection from '../components/HeroSection';
+// import styles from './Home.module.css'; // if using styling
 
 function Home() {
   return (
     <div>
-      <h1>Home Page</h1>
-      <p>Welcome to our plant nursery!</p>
+      <HeroSection />
+      {/* Other content for the Home page will go here later */}
     </div>
   );
 }
