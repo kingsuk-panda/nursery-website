@@ -1,19 +1,51 @@
+// client/src/components/Navbar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './Navbar.module.css'; // Import the CSS module
+import { NavLink } from 'react-router-dom'; // Changed from Link to NavLink
+import styles from './Navbar.module.css';
 
 function Navbar() {
   return (
-    <nav className={styles.nav}>  {/* Apply the nav style */}
-      <ul className={styles.ul}>   {/* Apply the ul style */}
-        <li className={styles.li}><Link to="/" className={styles.a}>Home</Link></li>  {/* Apply the li and a styles */}
-        <li className={styles.li}><Link to="/products" className={styles.a}>Products</Link></li>
-        <li className={styles.li}><Link to="/about" className={styles.a}>About</Link></li>
+    <nav className={styles.nav}>
+      <ul className={styles.ul}>
         <li className={styles.li}>
-          {localStorage.getItem('user') ? (
-            <Link to="/account" className={styles.a}>Account</Link>
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+          >
+            Home
+          </NavLink>
+        </li>
+        <li className={styles.li}>
+          <NavLink 
+            to="/products" 
+            className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+          >
+            Products
+          </NavLink>
+        </li>
+        <li className={styles.li}>
+          <NavLink 
+            to="/about" 
+            className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+          >
+            About
+          </NavLink>
+        </li>
+        <li className={styles.li}>
+          {localStorage.getItem('user') ? ( // Assuming you'll implement user logic
+            <NavLink 
+              to="/account" 
+              className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+            >
+              Account
+            </NavLink>
           ) : (
-            <Link to="/login" className={styles.a}>Login / Sign Up</Link>
+            <NavLink 
+              to="/login" 
+              className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+            >
+              Login / Sign Up
+            </NavLink>
           )}
         </li>
       </ul>
