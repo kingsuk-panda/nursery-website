@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Account from './pages/Account';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import About from './pages/About'; // Added Import
 import Navbar from './components/Navbar'; // Import the Navbar component
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/about" element={<About />} /> {/* Added Route */}
       </Routes>
     </Router>
   );
