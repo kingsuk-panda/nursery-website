@@ -1,19 +1,36 @@
 /* client/src/components/Navbar.module.css */
 
 .nav {
-  background-color: var(--primary-color); /* Use primary color for background */
-  padding: 15px 20px; /* Increased padding */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  /* background-color: var(--primary-color); */ /* Original background */
+  background-color: transparent; /* Initially transparent */
+  padding: 15px 20px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */ /* Removed initial shadow, can be added on scroll */
+  position: fixed; /* Fixed at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* High z-index to be on top of other content */
+  transition: background-color 0.3s ease; /* For potential change on scroll */
+  box-sizing: border-box; /* Ensure padding is within the width */
 }
+
+/* Optional: Style for when navbar gets a background (e.g., on scroll - JS needed for this) */
+/*
+.navScrolled {
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+*/
 
 .ul {
   list-style: none;
-  margin: 0;
+  margin: 0 auto; /* Center the ul if nav is full width */
   padding: 0;
   display: flex;
-  justify-content: flex-start; /* Align items to the start, or 'center' / 'flex-end' as preferred */
+  justify-content: flex-start; /* Or 'center' or 'flex-end' */
   align-items: center;
-  gap: 20px; /* Spacing between items */
+  gap: 20px;
+  max-width: 1200px; /* To align with main content width if desired */
 }
 
 .li {
@@ -22,21 +39,21 @@
 
 .a {
   text-decoration: none;
-  color: var(--nav-text-color); /* Using CSS variable from App.css */
+  color: var(--nav-text-color); /* White text, ensure it's readable over hero image */
   padding: 10px 15px;
   border-radius: 6px;
   transition: background-color 0.3s ease, color 0.3s ease;
-  display: block; /* Ensures padding is applied correctly */
+  display: block;
+  font-weight: bold; /* Make links bolder for better readability on image */
 }
 
 .a:hover {
-  background-color: var(--secondary-color);
-  color: white; /* Keep text white or adjust if secondary-color is very light */
+  /* Consider a subtle background or just text brightness change for hover */
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover */
+  /* color: var(--secondary-color); */ /* Or change text color on hover */
 }
 
 .active {
-  background-color: var(--secondary-color); /* Or a darker shade of primary for distinction */
-  /* font-weight: bold; */ /* Optional: make active link bold */
-  /* border-bottom: 2px solid var(--nav-text-color); */ /* Alternative active style */
-  /* padding-bottom: 8px; */ /* Adjust if using border-bottom */
+  background-color: rgba(255, 255, 255, 0.2); /* Subtle active state */
+  /* font-weight: bold; */
 }
