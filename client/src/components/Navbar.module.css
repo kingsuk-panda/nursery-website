@@ -1,9 +1,9 @@
 /* client/src/components/Navbar.module.css */
 
 .nav {
-  background-color: #f8f8f8;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--primary-color); /* Use primary color for background */
+  padding: 15px 20px; /* Increased padding */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .ul {
@@ -11,8 +11,9 @@
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: space-around; /* Distribute items evenly */
-  align-items: center; /* Center items vertically */
+  justify-content: flex-start; /* Align items to the start */
+  align-items: center;
+  gap: 20px; /* Increased spacing between items */
 }
 
 .li {
@@ -21,12 +22,12 @@
 
 .a {
   text-decoration: none;
-  color: #333;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  color: white; /* White text color */
+  padding: 10px 15px; /* Increased padding */
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
 
 .a:hover {
-  background-color: #ddd;
+  background-color: var(--secondary-color); /* Slightly lighter green on hover */
 }

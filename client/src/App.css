@@ -1,5 +1,41 @@
+/* client/src/App.css */
+
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #4CAF50;       /* A calming green */
+  --secondary-color: #8BC34A;     /* A slightly lighter green */
+  --background-color: #F5F5F5;    /* Light gray background */
+  --text-color: #333333;         /* Dark gray text */
+  --accent-color: #A1887F;         /* Earthy brown for accents */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Open Sans', sans-serif; /* Use Open Sans for general text */
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Slab', serif; /* Use Roboto Slab for headings */
+  font-weight: 700; /* Bold headings */
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px; /* Limit content width for better readability */
+  margin: 0 auto; /* Center content horizontally */
+}
+
+/* Remove default React styling */
 .App {
-  text-align: center;
+  text-align: center; /* Consider removing if you want more control */
 }
 
 .App-logo {
@@ -14,6 +50,8 @@
 }
 
 .App-header {
+  /* You can keep this if you plan to have a header in some pages */
+  /* Modify as needed for your design */
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -25,7 +63,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #61dafb; /* Consider changing this to match your color scheme */
 }
 
 @keyframes App-logo-spin {
