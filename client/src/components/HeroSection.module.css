@@ -5,12 +5,14 @@
   background-position: center;
   color: white;
   text-align: center;
-  padding: 100px 20px; /* Added horizontal padding for smaller screens */
+  padding: 60px 20px; /* Adjusted padding slightly for full height, can be tuned */
   position: relative; /* For overlay */
-  min-height: 70vh; /* Ensure it takes a good portion of the viewport height */
-  display: flex; /* For centering content */
-  align-items: center; /* For centering content */
-  justify-content: center; /* For centering content */
+  min-height: 100vh; /* Changed from 70vh to 100vh to fill screen height */
+  /* Or you can use height: 100vh; if you strictly want it to be exactly 100% of viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Ensures padding doesn't add to the 100vh height */
 }
 
 .hero::before {
@@ -20,13 +22,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Slightly increased overlay for better contrast */
+  background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .content {
-  position: relative; /* Stack above overlay */
-  z-index: 1; /* Ensure content is above the overlay */
-  max-width: 800px; /* Limit width of text content for readability */
+  position: relative; 
+  z-index: 1; 
+  max-width: 800px; 
 }
 
 @keyframes fadeInUp {
@@ -41,43 +43,43 @@
 }
 
 .title {
-  font-size: clamp(2.5em, 5vw, 3.5em); /* Responsive font size */
+  font-size: clamp(2.5em, 5vw, 3.5em); 
   margin-bottom: 20px;
   line-height: 1.2;
   animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0; /* Start hidden before animation */
-  font-weight: 700; /* Ensure it uses bold variant of Roboto Slab */
+  opacity: 0; 
+  font-weight: 700; 
 }
 
 .subtitle {
-  font-size: clamp(1.2em, 3vw, 1.5em); /* Responsive font size */
+  font-size: clamp(1.2em, 3vw, 1.5em); 
   margin-bottom: 30px;
-  line-height: 1.5; /* Adjusted for better readability */
-  animation: fadeInUp 0.8s ease-out 0.2s forwards; /* Delay by 0.2s */
-  opacity: 0; /* Start hidden */
-  font-weight: 400; /* Ensure it uses regular variant of Open Sans (or Roboto Slab if preferred) */
+  line-height: 1.5; 
+  animation: fadeInUp 0.8s ease-out 0.2s forwards; 
+  opacity: 0; 
+  font-weight: 400; 
 }
 
 .button {
   background-color: var(--primary-color);
   color: white;
-  padding: 15px 35px; /* Adjusted padding */
+  padding: 15px 35px; 
   border: none;
   border-radius: 6px;
-  font-size: clamp(1em, 2.5vw, 1.2em); /* Responsive font size */
-  font-weight: bold; /* Make button text bold */
+  font-size: clamp(1em, 2.5vw, 1.2em); 
+  font-weight: bold; 
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  animation: fadeInUp 0.8s ease-out 0.4s forwards; /* Delay by 0.4s */
-  opacity: 0; /* Start hidden */
-  display: inline-block; /* Ensures it behaves well with text-align center */
+  animation: fadeInUp 0.8s ease-out 0.4s forwards; 
+  opacity: 0; 
+  display: inline-block; 
 }
 
 .button:hover,
-.button:focus { /* Added focus for accessibility */
+.button:focus { 
   background-color: var(--secondary-color);
-  transform: translateY(-3px); /* Slightly more lift */
-  outline: none; /* Remove default focus outline if custom styling is sufficient */
+  transform: translateY(-3px); 
+  outline: none; 
 }
