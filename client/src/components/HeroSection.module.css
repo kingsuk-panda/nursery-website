@@ -1,7 +1,7 @@
 /* client/src/components/HeroSection.module.css */
 
 .hero {
-  background-image: url('your-image.jpg'); /* Replace with your image */
+  background-image: url('/hero-image.jpg'); /* Corrected path */
   background-size: cover;
   background-position: center;
   color: white;
