@@ -1,0 +1,32 @@
+/* client/src/components/Navbar.module.css */
+
+.nav {
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around; /* Distribute items evenly */
+  align-items: center; /* Center items vertically */
+}
+
+.li {
+  margin: 0;
+}
+
+.a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.a:hover {
+  background-color: #ddd;
+}
