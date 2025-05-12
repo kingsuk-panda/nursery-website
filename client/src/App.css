@@ -9,15 +9,15 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
 :root {
   --primary-color: #4CAF50;
   --secondary-color: #8BC34A;
-  --background-color: #BFCFBB;  /* << UPDATED global background color */
-  --text-color: #333333;         /* Dark gray text (contrast check: #333 vs #BFCFBB is ~4.96:1 - good for normal/large text) */
+  --background-color: #f5eee7;  /* << UPDATED global background color */
+  --text-color: #333333;         /* Dark gray text (contrast with #f5eee7 is excellent) */
   --accent-color: #A1887F;
-  --nav-text-color: white;
-  --navbar-height: 70px; /* Approximate height of your navbar, adjust as needed */
+  --nav-text-color: white;       /* For navbar text, generally */
+  --navbar-height: 70px;         /* Approximate height of your navbar, adjust as needed */
 }
 
 body {
-  background-color: var(--background-color); /* Body will now use the new color */
+  background-color: var(--background-color); /* Body will now use the new #f5eee7 color */
   color: var(--text-color);
   font-family: 'Open Sans', sans-serif;
   margin: 0;
@@ -42,12 +42,10 @@ h1, h2, h3, h4, h5, h6 {
 .page-content {
   padding-top: var(--navbar-height); /* Push content below the fixed navbar */
   padding-bottom: 20px; /* Standard bottom padding */
-  /* background-color: transparent; Ensure this allows body background to show */
 }
 
 /* Class for content that appears after the full-screen hero on the Home page */
 .page-content-after-hero {
   padding-top: 40px; /* Space between hero bottom and this content */
   padding-bottom: 20px;
-  /* background-color: transparent; Ensure this allows body background to show */
 }
