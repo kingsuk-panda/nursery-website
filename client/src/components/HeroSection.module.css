@@ -60,13 +60,14 @@
 }
 
 .title {
-  font-size: clamp(2.5em, 6vw, 4em);
+  font-family: 'Bodoni Moda', serif; /* << Apply Bodoni Moda here */
+  font-size: clamp(2.2em, 5vw, 3.8em); /* Adjusted clamp slightly for potentially longer text, tune as needed */
+  font-weight: 700; /* Use bold weight of Bodoni Moda (or 400 for regular, 900 for extra bold) */
   margin-bottom: 20px;
   line-height: 1.2;
   animation: fadeInUp 0.8s ease-out forwards;
   opacity: 0;
-  font-weight: 700;
-  text-shadow: 0px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.5); /* Keep text shadow for readability over video */
 }
 
 .subtitle {
