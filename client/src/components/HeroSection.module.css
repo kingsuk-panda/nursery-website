@@ -8,11 +8,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Crucial for positioning children and pseudo-elements */
-  overflow: hidden; /* Prevents content like video edges from showing if they momentarily exceed bounds */
+  position: relative;
+  overflow: hidden;
   box-sizing: border-box;
-
-  /* Fade out effect at the bottom - will apply to video too */
   -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
@@ -24,31 +22,32 @@
   transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
-  width: auto;   /* Maintain aspect ratio */
-  height: auto;  /* Maintain aspect ratio */
-  z-index: 1;    /* Base layer within .hero */
-  object-fit: cover; /* This makes the video cover the area, cropping if needed */
+  width: auto;
+  height: auto;
+  z-index: 1;
+  object-fit: cover;
 }
 
-.hero::before { /* Dark overlay for text readability over video */
+.hero::before { /* Dark overlay */
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.45); /* Adjust opacity as needed for video */
-  z-index: 2; /* Above the video, below the text content */
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 2;
 }
 
 .content {
-  position: relative; /* Stays relative to its flow within .hero */
-  z-index: 3;         /* On top of video and overlay */
+  position: relative;
+  z-index: 3;
   max-width: 800px;
   padding: 20px;
+  text-align: center;
 }
 
-@keyframes fadeInUp { /* Keep existing keyframes */
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -59,18 +58,15 @@
   }
 }
 
-/* 👇 New styles for the logo 👇 */
 .heroLogo {
-  height: 90px; /* Adjust height as needed */
-  width: auto; /* Maintain aspect ratio */
-  margin-bottom: 20px; /* Space between logo and title */
-  display: block; /* Makes margin auto work for centering if text-align fails */
-  margin-left: auto; /* Center the logo */
-  margin-right: auto; /* Center the logo */
-
-  /* Apply animation (appears just before the title) */
-  animation: fadeInUp 0.8s ease-out 0s forwards; /* Adjust delay (e.g., 0s) */
-  opacity: 0; /* Start hidden */
+  height: 90px;
+  width: auto;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 0.8s ease-out 0s forwards;
+  opacity: 0;
 }
 
 .title {
@@ -79,8 +75,7 @@
   font-weight: 400;
   margin-bottom: 20px;
   line-height: 1.2;
-  /* Adjust animation delay to come after logo */
-  animation: fadeInUp 0.8s ease-out 0.2s forwards; /* e.g., delay 0.2s */
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
   opacity: 0;
   text-shadow: 0px 1px 3px rgba(0,0,0,0.4);
 }
@@ -89,44 +84,43 @@
   font-size: clamp(1.2em, 4vw, 1.6em);
   margin-bottom: 30px;
   line-height: 1.5;
-   /* Adjust animation delay */
-  animation: fadeInUp 0.8s ease-out 0.4s forwards; /* e.g., delay 0.4s */
+  animation: fadeInUp 0.8s ease-out 0.4s forwards;
   opacity: 0;
   font-weight: 400;
   text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
 }
 
+/* === Updated Button Styles Start === */
 .button {
-  background-color: var(--primary-color);
-  color: white;
+  /* background-color: var(--primary-color); */ /* Old background */
+  background-color: rgba(245, 245, 245, 0.25); /* Light milky semi-transparent background */
+  color: white; /* Keep text white */
   padding: 15px 35px;
-  border: none;
-  border-radius: 6px;
+  /* border: none; */ /* Remove old border rule */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Subtle white border for definition */
+  border-radius: 8px; /* Slightly more rounded corners */
   font-size: clamp(1em, 2.5vw, 1.2em);
-  font-weight: bold;
+  font-weight: 500; /* Adjusted weight */
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease; /* Added border-color */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-   /* Adjust animation delay */
-  animation: fadeInUp 0.8s ease-out 0.6s forwards; /* e.g., delay 0.6s */
+  letter-spacing: 0.8px; /* Slightly increased spacing */
+  animation: fadeInUp 0.8s ease-out 0.6s forwards;
   opacity: 0;
   display: inline-block;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+  /* box-shadow: 0px 2px 5px rgba(0,0,0,0.3); */ /* Removed shadow, rely on blur/border */
+
+  /* Add the blur effect */
+  -webkit-backdrop-filter: blur(8px); /* Adjust blur radius as needed */
+  backdrop-filter: blur(8px);
 }
 
 .button:hover,
 .button:focus {
-  background-color: var(--secondary-color);
+  /* background-color: var(--secondary-color); */ /* Old hover */
+  background-color: rgba(255, 255, 255, 0.35); /* Slightly brighter background on hover */
+  border-color: rgba(255, 255, 255, 0.7); /* Slightly more opaque border on hover */
   transform: translateY(-3px);
   outline: none;
 }
-
-/* Ensure .content still has relative positioning and high z-index */
-.content {
-  position: relative; 
-  z-index: 3;         
-  max-width: 800px;
-  padding: 20px;
-  text-align: center; /* This should also help center the inline/block logo */
-}
+/* === Updated Button Styles End === */
