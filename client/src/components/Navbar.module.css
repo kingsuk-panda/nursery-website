@@ -1,7 +1,8 @@
 /* client/src/components/Navbar.module.css */
 
 .nav {
-  padding: 15px 20px;
+  /* Keep position, z-index, width, transitions, blur */
+  padding: 10px 20px; /* Adjusted padding slightly */
   position: fixed;
   top: 0;
   left: 0;
@@ -9,28 +10,56 @@
   z-index: 1000;
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
   box-sizing: border-box;
-  -webkit-backdrop-filter: blur(14px); /* Safari */
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
+
+  /* Make nav a flex container to align logo and ul */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the content wrapper */
+}
+
+/* Added wrapper for max-width and flex layout */
+.navContentWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Your standard content width */
+  /* Removed gap here, add margin to logo instead */
+}
+
+/* New styles for the logo inside the navbar */
+.navbarLogo {
+  height: 40px; /* Adjust size */
+  width: auto;
+  display: block;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(-10px); /* Optional: start slightly up */
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  margin-right: 25px; /* Space between logo and nav links */
+}
+
+.navbarLogoVisible {
+  opacity: 1; /* Fade in */
+  transform: translateY(0); /* Move to final position */
 }
 
 .ul {
   list-style: none;
-  margin: 0 auto; /* Keeps the whole UL centered if it has a max-width */
+  margin: 0; /* Reset margin */
   padding: 0;
   display: flex;
-  /* justify-content: flex-start; */ /* We can remove this if margin-left:auto handles all alignment */
   align-items: center;
-  gap: 20px; /* This will apply between Home, Products, About */
-  max-width: 1200px; /* The UL itself has a max-width and is centered */
-  width: 100%; /* Ensure ul takes up the available width within its constraints */
+  gap: 20px; /* Gap between Home, Products, About */
+  flex-grow: 1; /* Allow ul to grow and push the right item */
 }
 
 .li {
-  margin: 0; /* Base li style */
+  margin: 0;
 }
 
 .navItemPushRight {
-  margin-left: auto; /* This is the magic that pushes it to the right */
+  margin-left: auto; /* Pushes login to the right */
 }
 
 .a { /* Base styles for all links */
@@ -44,37 +73,20 @@
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
-/* Theme for DARK Backgrounds (e.g., Hero Image) -> Light Milky Blur Tint, Light Text */
-/* This class is styles.navThemeLightText in Navbar.js */
+/* Theme for DARK Backgrounds -> Light Milky Blur Tint, Light Text */
 .navThemeLightText {
   background-color: rgba(240, 240, 240, 0.25);
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-.navThemeLightText .a {
-  color: #FFFFFF;
-}
-.navThemeLightText .a:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-.navThemeLightText .active {
-  background-color: rgba(255, 255, 255, 0.25);
-}
+.navThemeLightText .a { color: #FFFFFF; }
+.navThemeLightText .a:hover { background-color: rgba(255, 255, 255, 0.15); }
+.navThemeLightText .active { background-color: rgba(255, 255, 255, 0.25); }
 
-/* Theme for LIGHT Backgrounds (e.g., Page Content) -> Darker Blur Tint, Light Text */
-/* This class is styles.navThemeDarkText in Navbar.js */
+/* Theme for LIGHT Backgrounds -> Darker Blur Tint, Light Text */
 .navThemeDarkText {
   background-color: rgba(50, 50, 50, 0.3);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-.navThemeDarkText .a {
-  color: #F5F5F5;
-}
-.navThemeDarkText .a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.navThemeDarkText .active {
-  background-color: rgba(255, 255, 255, 0.15);
-  /* If you wanted active link to be primary color on this theme, it would be something like: */
-  /* color: var(--primary-color); */
-  /* background-color: rgba(var(--primary-color-rgb), 0.1); */ /* Assuming --primary-color-rgb is defined */
-}
+.navThemeDarkText .a { color: #F5F5F5; }
+.navThemeDarkText .a:hover { background-color: rgba(255, 255, 255, 0.1); }
+.navThemeDarkText .active { background-color: rgba(255, 255, 255, 0.15); }
