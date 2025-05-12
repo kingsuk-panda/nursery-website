@@ -60,14 +60,14 @@
 }
 
 .title {
-  font-family: 'Bodoni Moda', serif; /* << Apply Bodoni Moda here */
-  font-size: clamp(2.2em, 5vw, 3.8em); /* Adjusted clamp slightly for potentially longer text, tune as needed */
-  font-weight: 700; /* Use bold weight of Bodoni Moda (or 400 for regular, 900 for extra bold) */
+  font-family: 'GFS Didot', serif; /* << Apply GFS Didot here */
+  font-size: clamp(2.2em, 5vw, 3.8em); /* Keep or adjust size as needed */
+  font-weight: 400; /* GFS Didot is typically used in its regular weight for display */
   margin-bottom: 20px;
-  line-height: 1.2;
+  line-height: 1.2; /* Adjust line-height if necessary for GFS Didot's metrics */
   animation: fadeInUp 0.8s ease-out forwards;
   opacity: 0;
-  text-shadow: 0px 2px 4px rgba(0,0,0,0.5); /* Keep text shadow for readability over video */
+  text-shadow: 0px 1px 3px rgba(0,0,0,0.4); /* May need slight adjustment for Didot's hairlines */
 }
 
 .subtitle {
