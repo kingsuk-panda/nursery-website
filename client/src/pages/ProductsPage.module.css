@@ -1,0 +1,36 @@
+/* client/src/pages/ProductsPage.module.css */
+.productsPageContainer {
+  padding-top: var(--navbar-height); /* To account for fixed navbar */
+  padding-bottom: 40px;
+  min-height: calc(100vh - var(--navbar-height)); /* Full height minus navbar */
+  background-color: var(--background-color); /* Uses your global background */
+}
+
+.pageTitle {
+  text-align: center;
+  font-size: 2.5em;
+  color: var(--text-color);
+  margin-top: 40px;
+  margin-bottom: 40px;
+  font-family: 'GFS Didot', serif; /* Or your preferred heading font */
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Creates a 2x2 grid */
+  gap: 30px; /* Space between cards */
+  max-width: 900px; /* Max width of the grid itself */
+  margin: 0 auto; /* Center the grid */
+  padding: 0 20px; /* Padding on the sides of the grid */
+}
+
+/* Responsive: for smaller screens, stack them (1 column) */
+@media (max-width: 768px) {
+  .categoryGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px; /* Adjust for single column view */
+  }
+  .pageTitle {
+    font-size: 2em;
+  }
+}

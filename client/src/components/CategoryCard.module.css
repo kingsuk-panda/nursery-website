@@ -1,0 +1,53 @@
+/* client/src/components/CategoryCard.module.css */
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block; /* Important for the link to take up the card's space */
+  transition: transform 0.3s ease;
+}
+
+.cardLink:hover {
+  transform: scale(1.03); /* Slight zoom on hover */
+}
+
+.categoryCard {
+  aspect-ratio: 1 / 1; /* Makes it a perfect square */
+  border-radius: 20px; /* Rounded corners */
+  overflow: hidden; /* Important for border-radius with background images */
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.cardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  /* The "blurry" effect */
+  background-color: rgba(0, 0, 0, 0.2); /* Adjust tint and opacity */
+  -webkit-backdrop-filter: blur(8px); /* Safari */
+  backdrop-filter: blur(8px);      /* Standard syntax for the blur */
+  transition: background-color 0.3s ease;
+}
+
+.cardLink:hover .cardOverlay {
+  background-color: rgba(0, 0, 0, 0.35); /* Darken overlay slightly on hover */
+}
+
+.categoryName {
+  font-family: 'GFS Didot', serif; /* Or your heading font */
+  font-size: clamp(1.5em, 4vw, 2.2em); /* Responsive font size */
+  color: white;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  margin: 0;
+}

@@ -2,8 +2,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductPage from './pages/ProductPage';
+// import Products from './pages/Products'; // We'll replace this
+import ProductsPage from './pages/ProductsPage'; // Import the new page for category display
+import ProductPage from './pages/ProductPage';   // For individual product details later
 import Login from './pages/Login';
 import Account from './pages/Account';
 import Cart from './pages/Cart';
@@ -19,13 +20,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} /> {/* Home page handles its own full-screen hero layout */}
         
+        {/* Updated /products route to use ProductsPage */}
+        <Route path="/products" element={<ProductsPage />} /> 
+        
         {/* For other pages, wrap their content in a container that respects the navbar */}
-        <Route path="/products" element={
-          <div className="container page-content">
-            <Products />
-          </div>
-        } />
-        <Route path="/products/:productId" element={
+        <Route path="/products/:productId" element={ 
+          // This route will be for showing a single product's details.
+          // It still uses the container for standard page layout.
           <div className="container page-content">
             <ProductPage />
           </div>
