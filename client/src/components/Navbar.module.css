@@ -9,72 +9,72 @@
   z-index: 1000;
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
   box-sizing: border-box;
-
-  /* Apply the blur effect consistently */
   -webkit-backdrop-filter: blur(14px); /* Safari */
-  backdrop-filter: blur(14px);      /* Standard syntax - increased blur slightly */
+  backdrop-filter: blur(14px);
 }
 
-/* Common styles for ul, li, and base 'a' tag appearance */
 .ul {
   list-style: none;
-  margin: 0 auto;
+  margin: 0 auto; /* Keeps the whole UL centered if it has a max-width */
   padding: 0;
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */ /* We can remove this if margin-left:auto handles all alignment */
   align-items: center;
-  gap: 20px;
-  max-width: 1200px;
+  gap: 20px; /* This will apply between Home, Products, About */
+  max-width: 1200px; /* The UL itself has a max-width and is centered */
+  width: 100%; /* Ensure ul takes up the available width within its constraints */
 }
 
 .li {
-  margin: 0;
+  margin: 0; /* Base li style */
 }
 
-.a { /* Base styles for all links - text will be light */
+.navItemPushRight {
+  margin-left: auto; /* This is the magic that pushes it to the right */
+}
+
+.a { /* Base styles for all links */
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 6px;
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
   display: block;
-  font-weight: 500; /* Adjusted font-weight, can be bold if preferred */
-  color: var(--nav-text-color); /* Default to white/light text from App.css */
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Subtle shadow for light text on varied blur */
+  font-weight: 500;
+  color: var(--nav-text-color);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 /* Theme for DARK Backgrounds (e.g., Hero Image) -> Light Milky Blur Tint, Light Text */
 /* This class is styles.navThemeLightText in Navbar.js */
 .navThemeLightText {
-  /* Light, milky tint for the blur - like Apple's typical hero overlay */
-  background-color: rgba(240, 240, 240, 0.25); /* Light gray with low opacity */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Very subtle shadow for definition */
+  background-color: rgba(240, 240, 240, 0.25);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 .navThemeLightText .a {
-  color: #FFFFFF; /* Ensure pure white or very light gray */
-  /* text-shadow: 0 1px 2px rgba(0,0,0,0.2); */ /* Slightly softer shadow if needed */
+  color: #FFFFFF;
 }
 .navThemeLightText .a:hover {
   background-color: rgba(255, 255, 255, 0.15);
 }
 .navThemeLightText .active {
   background-color: rgba(255, 255, 255, 0.25);
-  /* Consider a slightly brighter text or a very subtle underline for active state */
 }
 
 /* Theme for LIGHT Backgrounds (e.g., Page Content) -> Darker Blur Tint, Light Text */
 /* This class is styles.navThemeDarkText in Navbar.js */
 .navThemeDarkText {
-  /* Darker tint for the blur */
-  background-color: rgba(50, 50, 50, 0.3); /* Dark gray with low opacity */
+  background-color: rgba(50, 50, 50, 0.3);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .navThemeDarkText .a {
-  color: #F5F5F5; /* Ensure light text - can be same as above or slightly off-white */
-  /* text-shadow: 0 1px 2px rgba(0,0,0,0.4); */ /* Shadow for light text on darker blur */
+  color: #F5F5F5;
 }
 .navThemeDarkText .a:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Consistent light hover effect */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 .navThemeDarkText .active {
-  background-color: rgba(255, 255, 255, 0.15); /* Consistent light active effect */
+  background-color: rgba(255, 255, 255, 0.15);
+  /* If you wanted active link to be primary color on this theme, it would be something like: */
+  /* color: var(--primary-color); */
+  /* background-color: rgba(var(--primary-color-rgb), 0.1); */ /* Assuming --primary-color-rgb is defined */
 }
