@@ -26,20 +26,18 @@
   transform: scale(1.03);
 }
 .cardLink:hover .cardOverlay {
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(0, 0, 0, 0.25); /* Slightly darker tint on hover for contrast */
 }
 
 .categoryCard {
   aspect-ratio: 1 / 1;
   border-radius: 20px;
-  overflow: hidden; /* Crucial for keeping video and overlay within bounds */
-  position: relative; /* For positioning video and overlay */
-  /* background-size and background-position are no longer needed here */
+  overflow: hidden;
+  position: relative;
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   transition: transform 0.3s ease;
 }
 
-/* 👇 New styles for the card video background 👇 */
 .cardVideo {
   position: absolute;
   top: 50%;
@@ -47,10 +45,10 @@
   transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
-  width: auto;   /* Maintain aspect ratio */
-  height: auto;  /* Maintain aspect ratio */
-  z-index: 1;    /* Base layer within .categoryCard */
-  object-fit: cover; /* Fill the card, crop if needed */
+  width: auto;
+  height: auto;
+  z-index: 1;
+  object-fit: cover;
 }
 
 .cardOverlay {
@@ -65,19 +63,20 @@
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.2); /* Tint over the video */
-  -webkit-backdrop-filter: blur(8px); /* Blur the video behind this overlay */
-  backdrop-filter: blur(8px);
+
+  /* 👇 Adjust blur and tint here for more visibility 👇 */
+  background-color: rgba(0, 0, 0, 0.1); /* Reduced tint opacity from 0.2 to 0.1 */
+  -webkit-backdrop-filter: blur(4px);   /* Reduced blur from 8px to 4px */
+  backdrop-filter: blur(4px);           /* Reduced blur from 8px to 4px */
+  
   transition: background-color 0.3s ease;
-  z-index: 2; /* Ensure overlay is above video */
+  z-index: 2; 
 }
 
 .categoryName {
   font-family: 'GFS Didot', serif;
   font-size: clamp(1.5em, 4vw, 2.2em);
   color: white;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7); /* Slightly stronger shadow for readability if tint is very light */
   margin: 0;
-  position: relative; /* Ensures it's within the z-index flow of the overlay */
-  z-index: 3; /* Technically not needed if it's a child of .cardOverlay which has z-index 2 */
 }
