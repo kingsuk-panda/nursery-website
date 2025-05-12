@@ -17,9 +17,9 @@
 
 .categoryGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Creates a 2x2 grid */
-  gap: 30px; /* Space between cards */
-  max-width: 900px; /* Max width of the grid itself */
+  grid-template-columns: repeat(2, 1fr); /* Keeps the 2x2 grid for 4 items */
+  gap: 20px; /* Reduced gap from 30px */
+  max-width: 500px; /* Reduced max-width from 900px to make cards smaller */
   margin: 0 auto; /* Center the grid */
   padding: 0 20px; /* Padding on the sides of the grid */
 }
@@ -28,9 +28,13 @@
 @media (max-width: 768px) {
   .categoryGrid {
     grid-template-columns: 1fr;
-    max-width: 400px; /* Adjust for single column view */
+    gap: 20px; /* Keep gap consistent or adjust */
+    max-width: 280px; /* Reduced max-width for single column view for smaller cards */
+                     /* Or keep it larger if you want mobile cards to be more prominent */
   }
   .pageTitle {
     font-size: 2em;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 }
