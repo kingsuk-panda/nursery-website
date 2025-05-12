@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './HeroSection.module.css';
-import heroVideo from '../assets/videos/hero-video.mp4'; // Keep video import
-
-// 👇 Import logo from assets directory (path corrected) 👇
-import nurseryLogo from '../assets/nursery-logo.png'; 
+import heroVideo from '../assets/videos/hero-video.mp4'; // Make sure this path is correct
+import nurseryLogo from '../assets/nursery-logo.png'; // Make sure this path is correct
 
 function HeroSection() {
   return (
@@ -26,7 +24,9 @@ function HeroSection() {
           className={styles.heroLogo} 
         />
         <h1 className={styles.title}>Evergreen Pushpanjali Nursery</h1>
-        <p className={styles.subtitle}>Discover a wide variety of plants to brighten your space.</p>
+        <p className={styles.subtitle}>
+          Brighten your world with sustainable greens, nurtured by empowered women and blessed by Devi's touch.
+        </p>
         <button className={styles.button}>Explore Plants</button>
       </div>
     </section>
