@@ -66,27 +66,34 @@
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 6px;
-  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+  /* Ensure transform is included in the transition */
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.2s ease; 
   display: block;
   font-weight: 500;
   color: var(--nav-text-color);
   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
-/* Theme for DARK Backgrounds -> Light Milky Blur Tint, Light Text */
+/* 👇 New :active state for click animation on nav links 👇 */
+.a:active {
+  transform: scale(0.95); /* Scale down slightly on click */
+  opacity: 0.8; /* Optional: slightly dim the link on press */
+}
+
+/* Theme for DARK Backgrounds (e.g., Hero Image) -> Light Milky Blur Tint, Light Text */
 .navThemeLightText {
   background-color: rgba(240, 240, 240, 0.25);
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 .navThemeLightText .a { color: #FFFFFF; }
 .navThemeLightText .a:hover { background-color: rgba(255, 255, 255, 0.15); }
-.navThemeLightText .active { background-color: rgba(255, 255, 255, 0.25); }
+.navThemeLightText .active { background-color: rgba(255, 255, 255, 0.25); } /* This is NavLink's active page style */
 
-/* Theme for LIGHT Backgrounds -> Darker Blur Tint, Light Text */
+/* Theme for LIGHT Backgrounds (e.g., Page Content) -> Darker Blur Tint, Light Text */
 .navThemeDarkText {
   background-color: rgba(50, 50, 50, 0.3);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .navThemeDarkText .a { color: #F5F5F5; }
 .navThemeDarkText .a:hover { background-color: rgba(255, 255, 255, 0.1); }
-.navThemeDarkText .active { background-color: rgba(255, 255, 255, 0.15); }
+.navThemeDarkText .active { background-color: rgba(255, 255, 255, 0.15); } /* This is NavLink's active page style */

@@ -90,37 +90,36 @@
   text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
 }
 
-/* === Updated Button Styles Start === */
 .button {
-  /* background-color: var(--primary-color); */ /* Old background */
-  background-color: rgba(245, 245, 245, 0.25); /* Light milky semi-transparent background */
-  color: white; /* Keep text white */
+  background-color: rgba(245, 245, 245, 0.25);
+  color: white;
   padding: 15px 35px;
-  /* border: none; */ /* Remove old border rule */
-  border: 1px solid rgba(255, 255, 255, 0.5); /* Subtle white border for definition */
-  border-radius: 8px; /* Slightly more rounded corners */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
   font-size: clamp(1em, 2.5vw, 1.2em);
-  font-weight: 500; /* Adjusted weight */
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease; /* Added border-color */
+  /* Ensure transform is included in the transition for smooth scaling */
+  transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease; 
   text-transform: uppercase;
-  letter-spacing: 0.8px; /* Slightly increased spacing */
+  letter-spacing: 0.8px;
   animation: fadeInUp 0.8s ease-out 0.6s forwards;
   opacity: 0;
   display: inline-block;
-  /* box-shadow: 0px 2px 5px rgba(0,0,0,0.3); */ /* Removed shadow, rely on blur/border */
-
-  /* Add the blur effect */
-  -webkit-backdrop-filter: blur(8px); /* Adjust blur radius as needed */
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
 .button:hover,
 .button:focus {
-  /* background-color: var(--secondary-color); */ /* Old hover */
-  background-color: rgba(255, 255, 255, 0.35); /* Slightly brighter background on hover */
-  border-color: rgba(255, 255, 255, 0.7); /* Slightly more opaque border on hover */
-  transform: translateY(-3px);
+  background-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-3px); /* Existing hover lift effect */
   outline: none;
 }
-/* === Updated Button Styles End === */
+
+.button:active {
+  transform: translateY(-1px) scale(0.96); /* Slightly less lift and scale down */
+  background-color: rgba(255, 255, 255, 0.2); /* Optional: slightly darker/less opaque on press */
+  border-color: rgba(255, 255, 255, 0.4); /* Optional: slightly dimmer border on press */
+}
