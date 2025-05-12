@@ -1,18 +1,23 @@
 /* client/src/App.css */
 
-/* ... (your existing :root, body, h1-h6 resets and styles remain the same) ... */
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --primary-color: #4CAF50;
   --secondary-color: #8BC34A;
-  --background-color: #F5F5F5;
-  --text-color: #333333;
+  --background-color: #BFCFBB;  /* << UPDATED global background color */
+  --text-color: #333333;         /* Dark gray text (contrast check: #333 vs #BFCFBB is ~4.96:1 - good for normal/large text) */
   --accent-color: #A1887F;
   --nav-text-color: white;
   --navbar-height: 70px; /* Approximate height of your navbar, adjust as needed */
 }
 
 body {
-  background-color: var(--background-color);
+  background-color: var(--background-color); /* Body will now use the new color */
   color: var(--text-color);
   font-family: 'Open Sans', sans-serif;
   margin: 0;
@@ -23,7 +28,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto Slab', serif;
   font-weight: 700;
 }
-
 
 /* Container for general page content, not for full-bleed hero */
 .container {
@@ -38,11 +42,12 @@ h1, h2, h3, h4, h5, h6 {
 .page-content {
   padding-top: var(--navbar-height); /* Push content below the fixed navbar */
   padding-bottom: 20px; /* Standard bottom padding */
+  /* background-color: transparent; Ensure this allows body background to show */
 }
 
 /* Class for content that appears after the full-screen hero on the Home page */
 .page-content-after-hero {
   padding-top: 40px; /* Space between hero bottom and this content */
   padding-bottom: 20px;
-  /* This content is already below the 100vh hero, so navbar overlap is not an issue here */
+  /* background-color: transparent; Ensure this allows body background to show */
 }
