@@ -1,14 +1,13 @@
 /* client/src/components/CategoryCard.module.css */
 
-/* 👇 Define the pop-in animation 👇 */
 @keyframes popIn {
   0% {
     opacity: 0;
-    transform: scale(0.8) translateY(30px); /* Start smaller, slightly down, and invisible */
+    transform: scale(0.8) translateY(30px);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0); /* End at full size, original position, and visible */
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -16,34 +15,42 @@
   text-decoration: none;
   color: inherit;
   display: block;
-  
-  /* 👇 Apply the animation 👇 */
-  opacity: 0; /* Start invisible before animation (important for delayed animations) */
+  opacity: 0; 
   animation-name: popIn;
-  animation-duration: 0.5s;   /* How long the pop takes */
-  animation-timing-function: ease-out; /* Animation curve */
-  animation-fill-mode: forwards;     /* Keep the styles of the last keyframe (100%) after animation finishes */
-  /* animation-delay will be set via inline style from the component props */
-  /* transition: transform 0.3s ease; -- Keep for separate hover, or combine if animation is complex */
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 
-/* Keep hover effect distinct from the load-in animation */
-.cardLink:hover .categoryCard { /* Or directly on .cardLink if preferred */
-  transform: scale(1.03); /* Slight zoom on hover for the card itself */
+.cardLink:hover .categoryCard {
+  transform: scale(1.03);
 }
 .cardLink:hover .cardOverlay {
-  background-color: rgba(0, 0, 0, 0.35); /* Darken overlay slightly on hover */
+  background-color: rgba(0, 0, 0, 0.35);
 }
 
 .categoryCard {
   aspect-ratio: 1 / 1;
   border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  background-size: cover;
-  background-position: center;
+  overflow: hidden; /* Crucial for keeping video and overlay within bounds */
+  position: relative; /* For positioning video and overlay */
+  /* background-size and background-position are no longer needed here */
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  transition: transform 0.3s ease; /* For the hover scale effect */
+  transition: transform 0.3s ease;
+}
+
+/* 👇 New styles for the card video background 👇 */
+.cardVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;   /* Maintain aspect ratio */
+  height: auto;  /* Maintain aspect ratio */
+  z-index: 1;    /* Base layer within .categoryCard */
+  object-fit: cover; /* Fill the card, crop if needed */
 }
 
 .cardOverlay {
@@ -58,10 +65,11 @@
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.2);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.2); /* Tint over the video */
+  -webkit-backdrop-filter: blur(8px); /* Blur the video behind this overlay */
   backdrop-filter: blur(8px);
   transition: background-color 0.3s ease;
+  z-index: 2; /* Ensure overlay is above video */
 }
 
 .categoryName {
@@ -70,4 +78,6 @@
   color: white;
   text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   margin: 0;
+  position: relative; /* Ensures it's within the z-index flow of the overlay */
+  z-index: 3; /* Technically not needed if it's a child of .cardOverlay which has z-index 2 */
 }

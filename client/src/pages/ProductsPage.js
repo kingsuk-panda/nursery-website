@@ -1,13 +1,24 @@
 import React from 'react';
-// import { Link } from 'react-router-dom'; // Link is used within CategoryCard
 import styles from './ProductsPage.module.css';
 import CategoryCard from '../components/CategoryCard';
 
+// 👇 Update to use videoUrl and provide paths to your actual category videos 👇
+// Make sure these video files exist in your src/assets/videos/ or public/videos/
+// If in src/assets, you'll need to import them first.
+// If in public, you can use direct paths like '/videos/category-plants.mp4'.
+// For simplicity, assuming you'll import them:
+
+import plantsVideo from '../assets/videos/category-plants.mp4'; // Example import
+import seedsVideo from '../assets/videos/category-seeds.mp4';   // Example import
+import potsVideo from '../assets/videos/category-pots.mp4';     // Example import
+import careVideo from '../assets/videos/category-plant-care.mp4'; // Example import
+
+
 const categories = [
-  { name: 'Plants', path: '/products/plants', imageUrl: '/images/category-plants.jpg' }, // Replace with your actual image paths
-  { name: 'Seeds', path: '/products/seeds', imageUrl: '/images/category-seeds.jpg' },
-  { name: 'Pots', path: '/products/pots', imageUrl: '/images/category-pots.jpg' },
-  { name: 'Plant Care', path: '/products/plant-care', imageUrl: '/images/category-plant-care.jpg' },
+  { name: 'Plants', path: '/products/plants', videoUrl: plantsVideo }, 
+  { name: 'Seeds', path: '/products/seeds', videoUrl: seedsVideo },
+  { name: 'Pots', path: '/products/pots', videoUrl: potsVideo },
+  { name: 'Plant Care', path: '/products/plant-care', videoUrl: careVideo },
 ];
 
 function ProductsPage() {
@@ -20,9 +31,8 @@ function ProductsPage() {
             key={category.name}
             name={category.name}
             linkTo={category.path}
-            backgroundImageUrl={category.imageUrl}
-            // Pass a staggered animation delay
-            animationDelay={`${index * 0.15}s`} // e.g., 0s, 0.15s, 0.3s, 0.45s
+            videoUrl={category.videoUrl} // Pass videoUrl prop
+            animationDelay={`${index * 0.15}s`}
           />
         ))}
       </div>
