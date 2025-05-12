@@ -75,20 +75,36 @@
   font-weight: 400;
   margin-bottom: 20px;
   line-height: 1.2;
-  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards; 
   opacity: 0;
   text-shadow: 0px 1px 3px rgba(0,0,0,0.4);
 }
 
+/* === Updated Subtitle Styles Start === */
 .subtitle {
   font-size: clamp(1.2em, 4vw, 1.6em);
   margin-bottom: 30px;
   line-height: 1.5;
-  animation: fadeInUp 0.8s ease-out 0.4s forwards;
-  opacity: 0;
   font-weight: 400;
   text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+  
+  /* Re-apply fadeInUp animation with its original delay */
+  animation: fadeInUp 0.8s ease-out 0.4s forwards; 
+  opacity: 0; /* Start hidden for the animation */
+  
+  /* You can keep or adjust min-height if the subtitle text might wrap 
+     and you want to prevent layout shift during its fade-in. 
+     Otherwise, it can be removed if not needed for static text. */
+  min-height: calc(1.6em * 1.5 * 1.2); /* Example: adjust as needed or remove */
+  /* position: relative; Remove if only for cursor */
 }
+
+/* Remove typing cursor styles */
+/*
+.typingCursor::after { ... }
+@keyframes blink { ... }
+*/
+/* === Updated Subtitle Styles End === */
 
 .button {
   background-color: rgba(245, 245, 245, 0.25);
@@ -99,11 +115,10 @@
   font-size: clamp(1em, 2.5vw, 1.2em);
   font-weight: 500;
   cursor: pointer;
-  /* Ensure transform is included in the transition for smooth scaling */
-  transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease; 
+  transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  animation: fadeInUp 0.8s ease-out 0.6s forwards;
+  animation: fadeInUp 0.8s ease-out 0.6s forwards; 
   opacity: 0;
   display: inline-block;
   -webkit-backdrop-filter: blur(8px);
@@ -114,12 +129,21 @@
 .button:focus {
   background-color: rgba(255, 255, 255, 0.35);
   border-color: rgba(255, 255, 255, 0.7);
-  transform: translateY(-3px); /* Existing hover lift effect */
+  transform: translateY(-3px);
   outline: none;
 }
 
 .button:active {
-  transform: translateY(-1px) scale(0.96); /* Slightly less lift and scale down */
-  background-color: rgba(255, 255, 255, 0.2); /* Optional: slightly darker/less opaque on press */
-  border-color: rgba(255, 255, 255, 0.4); /* Optional: slightly dimmer border on press */
+  transform: translateY(-1px) scale(0.96);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Ensure .content still has relative positioning and high z-index */
+.content {
+  position: relative; 
+  z-index: 3;         
+  max-width: 800px;
+  padding: 20px;
+  text-align: center;
 }
