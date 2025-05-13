@@ -1,99 +1,132 @@
 /* client/src/pages/ProductPage.module.css */
+
+/* --- Page Entry Animations --- */
+@keyframes blurInImageEffect {
+  0% {
+    opacity: 0; /* Start with 0 opacity for smoother fade-in with blur */
+    filter: blur(10px);
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInTextEffect { /* Used for breadcrumbs and main text info column */
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* --- End Page Entry Animations --- */
+
+
 .productPageContainer {
-  /* This container class might be applied by App.js if using the "container page-content" wrapper */
-  /* If not, add padding here: */
-  /* padding-top: calc(var(--navbar-height) + 20px);  */
-  /* padding-bottom: 40px; */
-  /* max-width: 1100px; */
-  /* margin: 0 auto; */
-  /* padding-left: 20px; */
-  /* padding-right: 20px; */
-
-  /* REMOVED: animation: fadeInContent 0.5s ease-out forwards; */
-  /* The animation is now controlled by .contentVisible class */
+  /* Basic layout styles */
+  /* Padding and max-width are often handled by a wrapper in App.js like .container .page-content */
 }
 
-@keyframes fadeInContent { /* This keyframe definition is good, keep it */
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.contentHiddenInitially {
+  opacity: 0; /* Keep main container's content hidden before animation state is set */
+}
+.contentIsReady {
+  opacity: 1; /* Makes container logically visible, children handle their own animations */
+  /* No transition here, as children animate individually */
 }
 
-/* 👇 New classes to control content visibility and animation 👇 */
-.contentHidden {
-  opacity: 0;
-  visibility: hidden; /* Hides content completely and prevents interaction */
-}
 
-.contentVisible {
-  opacity: 1;
-  visibility: visible;
-  animation: fadeInContent 0.5s ease-out forwards;
-  animation-delay: 0.1s; /* Optional: slight delay after wipe for smoother transition */
-}
-/* --- End of new classes --- */
-
-
+/* === Breadcrumb Styles (Entry Animation + Hover Underline) === */
 .breadcrumbs {
   margin-bottom: 25px;
   font-size: 0.9em;
   color: var(--text-color);
+  opacity: 0; /* Start hidden for its own entry animation */
 }
+.breadcrumbs.textFadeIn { /* Applied from JS when content is ready */
+  animation: fadeInTextEffect 0.6s ease-out 0.1s forwards; /* Staggered entry for breadcrumbs */
+}
+
+/* Styles for the links within breadcrumbs, including animated underline */
 .breadcrumbs a {
   color: var(--primary-color);
   text-decoration: none;
-  position: relative;
-  padding-bottom: 2px;
+  position: relative;      /* For the ::after pseudo-element */
+  padding-bottom: 3px;     /* Space for the underline (was 2px, adjusted for consistency) */
+  display: inline-block;   /* Consistent padding behavior */
+  transition: color 0.3s ease; /* Optional: smooth color transition on hover */
 }
+
 .breadcrumbs a::after {
   content: '';
   position: absolute;
-  width: 0;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--primary-color);
-  transition: width 0.3s ease-in-out;
+  width: 0;                /* Start with no width */
+  height: 1.5px;           /* Underline thickness (was 1px, adjusted for visibility) */
+  bottom: 0;               /* Position at the bottom of padding */
+  left: 0;                 /* Align to the left */
+  background-color: var(--primary-color); /* Underline color */
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animation for width */
 }
+
 .breadcrumbs a:hover::after {
-  width: 100%;
+  width: 100%;             /* Expand underline to full width on hover */
 }
+
 .breadcrumbs span {
   margin: 0 8px;
-  color: #888;
+  color: #777;
 }
+/* === End Breadcrumb Styles === */
+
 
 .productDetailLayout {
   display: grid;
-  grid-template-columns: 1fr 1.2fr; /* Image column, Info column ratio */
+  grid-template-columns: 1fr 1.2fr;
   gap: 40px;
-  align-items: flex-start; /* Align items to the top of their grid cell */
+  align-items: flex-start;
 }
 
 .productImageColumn {
-  /* Sticky positioning can be nice for the image if content scrolls */
-  /* position: sticky; */
-  /* top: calc(var(--navbar-height) + 20px); */
+  /* Styles for image column */
 }
 
 .productImage {
   width: 100%;
-  max-width: 500px; /* Max image width */
+  max-width: 500px;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   object-fit: cover;
+  opacity: 0; /* Start hidden for its own animation */
 }
+.productImage.imageAnim { /* Class to trigger image blur-in */
+  animation: blurInImageEffect 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.05s; /* Start image animation slightly after container is ready */
+}
+
 
 .productInfoColumn {
   display: flex;
   flex-direction: column;
+  opacity: 0; /* Start hidden for its own animation */
+}
+.productInfoColumn.textFadeIn { /* Class to trigger text fade-in */
+  animation: fadeInTextEffect 0.7s ease-out forwards;
+  animation-delay: 0.25s; /* Delay text fade until image is partly visible */
 }
 
+
+/* Individual text elements */
 .productName {
-  font-family: 'GFS Didot', serif; /* Or Roboto Slab / Open Sans */
-  font-size: 2.4em; /* Large product name */
+  font-family: 'GFS Didot', serif;
+  font-size: 2.4em;
   font-weight: 600;
-  color: var(--text-color-dark); /* Using a darker text color variable */
+  color: var(--text-color-dark);
   margin-bottom: 15px;
   line-height: 1.3;
 }
@@ -120,9 +153,9 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 1em;
   line-height: 1.7;
-  color: var(--text-color-soft); /* Softer text color for description */
+  color: var(--text-color-soft);
   margin-bottom: 30px;
-  white-space: pre-line; /* Respect line breaks in description */
+  white-space: pre-line;
 }
 
 .addToCartButton {
@@ -137,7 +170,7 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  align-self: flex-start; /* Don't stretch full width unless desired */
+  align-self: flex-start;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
@@ -156,25 +189,17 @@
   color: var(--text-color);
 }
 
-
-/* Responsive adjustments for smaller screens */
 @media (max-width: 850px) {
   .productDetailLayout {
-    grid-template-columns: 1fr; /* Stack image and info vertically */
+    grid-template-columns: 1fr;
     gap: 30px;
   }
   .productImageColumn {
-    position: static; /* Reset sticky for stacked layout */
-    max-width: 450px; /* Allow image to be a bit wider */
-    margin: 0 auto; /* Center image */
+    position: static;
+    max-width: 450px;
+    margin: 0 auto;
   }
-  .productName {
-    font-size: 2em;
-  }
-  .productPrice {
-    font-size: 1.6em;
-  }
-  .addToCartButton {
-    width: 100%; /* Full width button on mobile */
-  }
+  .productName { font-size: 2em; }
+  .productPrice { font-size: 1.6em; }
+  .addToCartButton { width: 100%; }
 }

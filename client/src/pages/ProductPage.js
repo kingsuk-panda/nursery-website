@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styles from './ProductPage.module.css';
 import LoadingOverlay from '../components/LoadingOverlay';
-import PageRevealWipe from '../components/PageRevealWipe'; // Import the new wipe component
 
 // MOCK DATA (ensure image paths and descriptions are correct)
 const allProducts = [
@@ -19,87 +18,75 @@ const allProducts = [
 ];
 const placeholderImage = '/images/placeholder-plant.jpg';
 
-
 function ProductPage() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [isLoadingData, setIsLoadingData] = useState(true); // For data fetching
-  const [isPageRevealing, setIsPageRevealing] = useState(true); // For the wipe animation
-  const [showActualContent, setShowActualContent] = useState(false); // For content fade-in
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [animateContent, setAnimateContent] = useState(false); 
 
   useEffect(() => {
     setIsLoadingData(true);
-    setIsPageRevealing(true); // Start with page covered for reveal
-    setShowActualContent(false);
+    setAnimateContent(false); 
 
     const foundProduct = allProducts.find(p => p.id === productId);
     
-    setTimeout(() => { // Simulate data fetch
+    setTimeout(() => { 
       setProduct(foundProduct);
       setIsLoadingData(false);
-      // Once data loading is done, the PageRevealWipe (if not loading) will start its animation.
-      // PageRevealWipe's onWipeComplete will then set showActualContent.
-    }, 700); // Adjust simulated fetch time
+      setTimeout(() => setAnimateContent(true), 50); 
+    }, 700); 
 
   }, [productId]);
 
-  const handleWipeComplete = () => {
-    setIsPageRevealing(false); // Wipe is done
-    setShowActualContent(true); // Now show the content
-  };
-
-  if (isLoadingData && !product) { // Show main loading overlay only during initial data fetch
+  if (isLoadingData && !product) {
     return <LoadingOverlay isActive={true} />;
   }
 
-  if (!product && !isLoadingData) { // Product not found after loading
+  if (!product && !isLoadingData) {
     return (
-      <div className={styles.productPageContainer}>
+      <div className={`${styles.productPageContainer} ${styles.contentVisible}`}> {/* Ensure container is visible */}
         <div className={styles.notFound}>Product not found!</div>
       </div>
     );
   }
-
-  // Capitalize category for breadcrumb
+  
   const categoryDisplayName = product?.category.charAt(0).toUpperCase() + product.category.slice(1);
 
   return (
-    <> {/* Use Fragment to allow PageRevealWipe and container to be siblings */}
-      {/* The wipe component is active after data loading and before content is fully shown */}
-      {!isLoadingData && isPageRevealing && <PageRevealWipe onWipeComplete={handleWipeComplete} />}
-      
-      <div 
-        className={`${styles.productPageContainer} ${showActualContent ? styles.contentVisible : styles.contentHidden}`}
-      >
-        <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
-          <Link to="/products">Categories</Link> <span>&gt;</span> 
-          {product && <Link to={`/products/${product.category.toLowerCase()}`}>{categoryDisplayName}</Link>}
-          <span>&gt;</span> 
-          {product?.name}
-        </nav>
+    // Main container gets a simple visibility class or a very subtle base animation
+    <div 
+      className={`${styles.productPageContainer} ${animateContent ? styles.contentIsReady : styles.contentHiddenInitially}`}
+    >
+      <nav aria-label="breadcrumb" className={`${styles.breadcrumbs} ${animateContent ? styles.textFadeIn : ''}`}>
+        <Link to="/products">Categories</Link> <span>&gt;</span> 
+        {product && <Link to={`/products/${product.category.toLowerCase()}`}>{categoryDisplayName}</Link>}
+        <span>&gt;</span> 
+        {product?.name}
+      </nav>
 
-        <div className={styles.productDetailLayout}>
-          <div className={styles.productImageColumn}>
-            <img 
-              src={product?.imageUrl || placeholderImage} 
-              alt={product?.name} 
-              className={styles.productImage} 
-            />
-          </div>
+      <div className={styles.productDetailLayout}>
+        <div className={styles.productImageColumn}>
+          <img 
+            src={product?.imageUrl || placeholderImage} 
+            alt={product?.name} 
+            // Apply image animation class when animateContent is true
+            className={`${styles.productImage} ${animateContent ? styles.imageAnim : ''}`} 
+          />
+        </div>
 
-          <div className={styles.productInfoColumn}>
-            <h1 className={styles.productName}>{product?.name}</h1>
-            <p className={styles.productPrice}>₹{product?.price?.toFixed(2)}</p>
-            
-            <div className={styles.descriptionSection}>
-              <h2 className={styles.sectionTitle}>Description</h2>
-              <p className={styles.productDescription}>{product?.description || "No description available."}</p>
-            </div>
-            <button className={styles.addToCartButton}>Add to Cart</button>
+        {/* Apply text animation class to the whole info column */}
+        <div className={`${styles.productInfoColumn} ${animateContent ? styles.textFadeIn : ''}`}>
+          <h1 className={styles.productName}>{product?.name}</h1>
+          <p className={styles.productPrice}>₹{product?.price?.toFixed(2)}</p>
+          
+          <div className={styles.descriptionSection}>
+            <h2 className={styles.sectionTitle}>Description</h2>
+            <p className={styles.productDescription}>{product?.description || "No description available."}</p>
           </div>
+          <button className={styles.addToCartButton}>Add to Cart</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
