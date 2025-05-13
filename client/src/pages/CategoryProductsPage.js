@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react'; // Import useRef
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
+// Removed CSSTransition, useRef imports
 import styles from './CategoryProductsPage.module.css';
 import ProductCard from '../components/ProductCard';
-import LoadingIndicator from '../components/LoadingIndicator'; 
+// Removed import for old LoadingIndicator
+import LoadingOverlay from '../components/LoadingOverlay'; // Import the new overlay
 
 // MOCK DATA (ensure image paths are correct)
 const allProducts = [
@@ -24,41 +25,26 @@ function CategoryProductsPage() {
   const { categoryName } = useParams(); 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
-  const [showContent, setShowContent] = useState(false); 
-  
-  // 👇 Create a ref for the loading indicator's DOM node
-  const loadingIndicatorRef = useRef(null); 
+  // Removed showContent state
 
   useEffect(() => {
     setIsLoading(true);
-    setShowContent(false); 
-    const startTime = Date.now();
-
+    
     // --- Simulate fetching products ---
     const filteredProducts = allProducts.filter(
       (product) => product.category.toLowerCase() === categoryName.toLowerCase()
     );
-    const fetchDataDuration = 500; 
+    const fetchDataDuration = 1000; // Simulate 1 second fetch time (adjust as needed)
     // --- End Simulation ---
     
-    const minLoadingTime = 2000; 
-
+    // Removed the minLoadingTime logic
     const finishLoading = () => {
       setProducts(filteredProducts); 
       setIsLoading(false); 
     };
 
-    setTimeout(() => { // Simulate fetch completing
-        const endTime = Date.now();
-        const elapsedTime = endTime - startTime;
-        const remainingTime = minLoadingTime - elapsedTime;
-
-        if (remainingTime > 0) {
-            setTimeout(finishLoading, remainingTime);
-        } else {
-            finishLoading();
-        }
-    }, fetchDataDuration);
+    // Simulate the fetch completing
+    setTimeout(finishLoading, fetchDataDuration); 
 
   }, [categoryName]);
 
@@ -66,46 +52,29 @@ function CategoryProductsPage() {
 
   return (
     <div className={styles.categoryProductsContainer}>
-        <CSSTransition
-          // 👇 Pass the ref via nodeRef
-          nodeRef={loadingIndicatorRef} 
-          in={isLoading} 
-          timeout={500} // Exit animation duration
-          classNames={{ // Use the CSS Module class names directly if preferred
-             exit: styles.loadingIndicatorExit,
-             exitActive: styles.loadingIndicatorExitActive,
-             // We are not animating enter here, but if needed:
-             // enter: styles.loadingIndicatorEnter,
-             // enterActive: styles.loadingIndicatorEnterActive,
-          }}
-          unmountOnExit 
-          onExited={() => setShowContent(true)} 
-        >
-          {/* 👇 Pass the ref down to the LoadingIndicator component */}
-          <LoadingIndicator ref={loadingIndicatorRef} text="Loading products..." />
-        </CSSTransition>
+      {/* Render LoadingOverlay based on isLoading state */}
+      {/* The overlay component handles its own visibility */}
+      <LoadingOverlay isActive={isLoading} />
 
-        {showContent && (
-            // Content wrapper - applies fade-in animation via CSS module class
-            <div className={`${styles.contentWrapper} ${styles.contentFadeIn}`}> 
-                <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
-                    <Link to="/products">Categories</Link> <span>&gt;</span> {pageTitle}
-                </nav>
-                <h1 className={styles.pageTitle}>{pageTitle}</h1>
-                {products.length > 0 ? (
-                    // Grid - animation applied by parent or specifically here
-                    <div className={styles.productsGrid}> 
-                        {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-                ) : (
-                    <p className={styles.noProducts}>
-                        No products found in this category yet.
-                    </p>
-                )}
-            </div>
-        )}
+      {/* Render content structure always, but overlay will cover it when loading */}
+      {/* Optional: could add fade-in animation here if desired */}
+      <div className={styles.contentWrapper}> 
+          <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
+              <Link to="/products">Categories</Link> <span>&gt;</span> {pageTitle}
+          </nav>
+          <h1 className={styles.pageTitle}>{pageTitle}</h1>
+          {products.length === 0 && !isLoading ? ( // Show 'no products' only if not loading AND products array is empty
+              <p className={styles.noProducts}>
+                  No products found in this category yet.
+              </p>
+          ) : (
+              <div className={styles.productsGrid}> 
+                  {products.map((product) => (
+                      <ProductCard key={product.id} product={product} />
+                  ))}
+              </div>
+          )}
+      </div>
     </div>
   );
 }

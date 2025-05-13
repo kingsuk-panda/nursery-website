@@ -1,0 +1,49 @@
+/* client/src/components/LoadingOverlay.module.css */
+
+.overlay {
+  position: fixed; /* Cover the entire viewport */
+  inset: 0; /* Equivalent to top: 0; left: 0; right: 0; bottom: 0; */
+  
+  /* Background: Use your page background color with some opacity, or a neutral/dark overlay */
+  /* Example using your page color #f5eee7 -> rgb(245, 238, 231) */
+  background-color: rgba(245, 238, 231, 0.6); 
+  /* Or a slightly darker overlay: */
+  /* background-color: rgba(50, 50, 50, 0.4); */
+
+  /* Blur effect on content behind */
+  -webkit-backdrop-filter: blur(5px); /* Adjust blur amount (e.g., 3px, 5px, 8px) */
+  backdrop-filter: blur(5px);
+
+  /* Center the spinner */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Ensure it's above other content, including navbar (z-index 1000) */
+  z-index: 1500; 
+
+  /* Optional: Add a subtle fade-in */
+  opacity: 0;
+  animation: fadeInOverlay 0.3s ease-out forwards;
+}
+
+@keyframes fadeInOverlay {
+  to { opacity: 1; }
+}
+
+
+/* === Aesthetic Loading Circle (Spinner) === */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 50px;  /* Size of the spinner */
+  height: 50px;
+  border: 6px solid rgba(0, 0, 0, 0.1); /* Light grey track */
+  /* Spinner color - using your primary green */
+  border-top-color: var(--primary-color); 
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* Speed of rotation */
+}

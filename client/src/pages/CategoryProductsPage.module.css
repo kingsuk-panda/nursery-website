@@ -9,66 +9,62 @@
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
-  position: relative; /* Needed for absolute positioning of content during transition? Maybe not. */
+}
+
+/* Removed LoadingIndicator exit animation classes */
+/* @keyframes fadeAndFlyUp { ... } */
+/* .loadingIndicatorExit { ... } */
+/* .loadingIndicatorExitActive { ... } */
+
+/* Removed Content fade-in keyframes and wrapper classes - can be added back if desired */
+/*
+@keyframes fadeInContent { ... }
+.contentWrapper { ... }
+.contentHidden { ... }
+.contentFadeIn { ... }
+.gridFadeIn { ... } 
+*/
+
+/* Styles for the content wrapper - adjust if needed */
+.contentWrapper {
+  /* Add styles here if you want specific layout for the wrapper */
 }
 
 /* Breadcrumbs, PageTitle, ProductsGrid, NoProducts styles remain the same */
-.breadcrumbs { /* ... */ }
-.pageTitle { /* ... */ }
-.productsGrid { /* ... */ }
-.noProducts { /* ... */ }
-
-
-/* --- Styles for Loading Indicator Exit Animation --- */
-
-@keyframes fadeAndFlyUp {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-30px); /* Fly upward distance */
-  }
+.breadcrumbs { 
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  color: var(--text-color);
+}
+.breadcrumbs a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.breadcrumbs a:hover {
+  text-decoration: underline;
+}
+.breadcrumbs span {
+  margin: 0 5px;
+  color: #888;
 }
 
-/* CSSTransition classes for LoadingIndicator exit */
-.loadingIndicatorExit {
-  opacity: 1; /* Start fully visible */
-  transform: translateY(0);
-}
-.loadingIndicatorExitActive {
-  opacity: 0; /* End invisible */
-  transform: translateY(-30px); /* End flown up */
-  transition: opacity 500ms ease-out, transform 500ms ease-out; /* Match timeout */
-}
-/* We don't need enter/enter-active unless we want an initial fade-in for the loader itself */
-/* .loadingIndicatorEnter { opacity: 0; } */
-/* .loadingIndicatorEnterActive { opacity: 1; transition: opacity 300ms; } */
-
-
-/* --- Styles for Content Entry Animation --- */
-
-@keyframes fadeInContent {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
+.pageTitle { 
+  text-align: center;
+  font-size: 2.2em;
+  color: var(--text-color);
+  margin-bottom: 30px;
+  font-family: 'GFS Didot', serif;
 }
 
-/* Wrapper for the content that fades in */
-.contentWrapper {
-  opacity: 0; /* Start hidden */
-  animation: fadeInContent 0.6s ease-out forwards;
-  animation-delay: 0s; /* Starts immediately when rendered */
-}
-
-.productsGrid {
+.productsGrid { 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
   gap: 25px;
+}
+
+.noProducts { 
+  text-align: center;
+  font-size: 1.2em;
+  padding: 50px 0;
+  color: var(--text-color);
 }
