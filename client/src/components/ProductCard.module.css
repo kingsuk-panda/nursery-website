@@ -3,7 +3,7 @@
 @keyframes animateProductCardIn {
   0% {
     opacity: 0;
-    transform: translateY(25px) scale(0.95);
+    transform: translateY(20px) scale(0.97);
   }
   100% {
     opacity: 1;
@@ -12,40 +12,33 @@
 }
 
 .productCard {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  overflow: hidden;
-  display: flex;
+  background-color: #ffffff;
+  border-radius: 8px; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex; 
   flex-direction: column;
+  
+  /* 👇 Aspect Ratio changed to 2:3 (taller card) 👇 */
+  aspect-ratio: 2 / 3; 
   
   opacity: 0; 
   animation-name: animateProductCardIn;
-  animation-duration: 0.5s; 
+  animation-duration: 0.45s; 
   animation-timing-function: ease-out;
   animation-fill-mode: forwards; 
 
-  /* 👇 Ensure transitions are set for transform and box-shadow for hover effect 👇 */
   transition: 
-    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
-    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), 
+    box-shadow 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
   
-  position: relative; /* For z-index on hover if needed */
-  z-index: 1; /* Default z-index */
+  position: relative; 
+  overflow: hidden; 
 }
 
-/* 👇 New simple CSS :hover effect for the card itself 👇 */
 .productCard:hover {
-  transform: scale(1.05) translateY(-5px); /* Pop up: scale up and lift */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 6px 10px rgba(0,0,0,0.1); /* Enhanced shadow */
-  z-index: 10; /* Bring to front on hover to overlap siblings if they are close */
+  transform: translateY(-3px); 
+  box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
-
-/* Remove old JS-driven hover state classes */
-/*
-.isHovered { ... }
-.isDimmed { ... }
-*/
 
 .cardLink {
   text-decoration: none;
@@ -53,41 +46,111 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: 100%;
+}
+
+.imageContainer {
+  width: 100%;
+  /* Image still takes up a percentage of the card's new (taller) height */
+  /* You might want to adjust this % based on how much space you want for text below */
+  height: 65%; /* Example: 65% of the card's height for the image */
+  overflow: hidden;
+  position: relative; 
+  background-color: #f0f0f0; 
 }
 
 .productImage {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  border-bottom: 1px solid #eee;
-  transition: transform 0.35s ease-in-out; 
+  transition: transform 0.3s ease-in-out;
+}
+.productCard:hover .productImage {
+  transform: scale(1.04);
 }
 
-/* Optional: Image zoom on card hover */
-.productCard:hover .productImage {
-  transform: scale(1.03);
+.discountBadgeOnImage {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: bold;
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
+
 
 .productInfo {
-  padding: 15px;
-  text-align: center;
-  flex-grow: 1;
+  padding: 10px 12px; 
+  text-align: left;
+  flex-grow: 1; /* Info section takes remaining vertical space */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; 
+  background-color: #fff;
+  border-top: 1px solid #f0f0f0; 
 }
 
 .productName {
-  font-size: 1.1em;
+  font-size: 0.9em; 
   font-weight: 600;
-  color: var(--text-color);
-  margin-bottom: 8px;
-  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color-dark);
+  margin-bottom: 5px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Still allow up to 2 lines for name */
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(0.9em * 1.35 * 2); 
 }
 
-.productPrice {
-  font-size: 1em;
-  font-weight: bold;
+.ratingLine {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  min-height: 1.2em; 
+}
+.ratingLinePlaceholder {
+    min-height: calc(0.8em * 1.2); 
+    margin-bottom: 5px;
+}
+
+.cardStars {
+  font-size: 0.85em; 
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+.starFull { color: #ffc107; }
+.starHalf { color: #ffc107; }
+.starEmpty { color: #e0e0e0; }
+
+.cardNumReviews {
+  color: var(--text-color-soft);
+  font-size: 0.8em; 
+  margin-left: 2px;
+  line-height: 1;
+}
+
+
+.priceLine {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: auto; 
+}
+.currentCardPrice {
+  font-size: 1.05em; 
+  font-weight: 700; 
   color: var(--primary-color);
-  margin-top: auto;
+}
+.originalCardPrice {
+  font-size: 0.85em;
+  color: var(--text-color-soft);
+  text-decoration: line-through;
 }

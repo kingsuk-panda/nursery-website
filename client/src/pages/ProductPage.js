@@ -1,9 +1,11 @@
+// client/src/pages/ProductPage.js
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styles from './ProductPage.module.css';
 import LoadingOverlay from '../components/LoadingOverlay';
 
-// MOCK DATA - CRITICAL: Update ALL your products with these new fields
+// MOCK DATA - "Rose Bush (Red)" changed to "Rose Bush (Pink)"
 const allProducts = [
   { 
     id: 'p1', category: 'plants', name: 'Monstera Deliciosa', 
@@ -19,7 +21,7 @@ const allProducts = [
   },
   { 
     id: 'p2', category: 'plants', name: 'Snake Plant', 
-    price: 800, originalPrice: null, // No discount for this one
+    price: 800, originalPrice: null, 
     imageUrl: '/images/snake-plant.jpg', 
     description: 'A hardy succulent that can grow almost anywhere. It filters indoor air and is very low maintenance. Ideal for beginners or those with a busy lifestyle.',
     rating: 4.8, numReviews: 210,
@@ -40,10 +42,10 @@ const allProducts = [
     ]
   },
   { 
-    id: 'p4', category: 'plants', name: 'Rose Bush (Red)', 
+    id: 'p4', category: 'plants', name: 'Rose Bush (Pink)', // << UPDATED NAME
     price: 450, originalPrice: 500, 
-    imageUrl: '/images/rose-bush.jpg', 
-    description: 'Beautiful red rose bush, perfect for gardens or large pots. Requires full sun and regular care for vibrant blooms. Shipped as a bare-root plant.',
+    imageUrl: '/images/rose-bush-pink.jpg', // << SUGGESTED IMAGE URL UPDATE
+    description: 'Beautiful pink rose bush, perfect for gardens or large pots. Requires full sun and regular care for vibrant blooms. Shipped as a bare-root plant.', // << UPDATED DESCRIPTION
     rating: 4.6, numReviews: 130,
     reviews: [
       { id: 'r1p4', user: 'Meena T.', rating: 5, comment: 'Bloomed beautifully within a few months!', date: '2025-04-18'}
@@ -102,19 +104,17 @@ const allProducts = [
 ];
 const placeholderImage = '/images/placeholder-plant.jpg';
 
-// Helper function to render star ratings
+// Helper function to render star ratings (already here from previous step)
 const renderStars = (rating) => {
   const stars = [];
   const fullStars = Math.floor(rating);
-  const halfStar = rating % 1 >= 0.4 ? 1 : 0; // Threshold for half star
+  const halfStar = rating % 1 >= 0.4 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStar;
 
   for (let i = 0; i < fullStars; i++) {
     stars.push(<span key={`full-${i}`} className={styles.starFull}>★</span>);
   }
   if (halfStar) {
-    // For a true half-star visual, you'd typically use an icon library or SVG
-    // Using a different character or styled span for simplicity here
     stars.push(<span key="half" className={styles.starHalf}>★</span>); 
   }
   for (let i = 0; i < emptyStars; i++) {
@@ -122,7 +122,6 @@ const renderStars = (rating) => {
   }
   return stars;
 };
-
 
 function ProductPage() {
   const { productId } = useParams();
@@ -193,7 +192,7 @@ function ProductPage() {
           {product.rating && product.numReviews > 0 && (
             <div className={styles.ratingSummary}>
               <span className={styles.starsDisplay}>{renderStars(product.rating)}</span>
-              <span className={styles.ratingValue}>{product.rating.toFixed(1)}</span> {/* Just the number */}
+              <span className={styles.ratingValue}>{product.rating.toFixed(1)}</span>
               <a href="#reviewsSection" className={styles.numReviewsLink}>({product.numReviews} reviews)</a>
             </div>
           )}
@@ -245,7 +244,6 @@ function ProductPage() {
         ) : (
           <p className={styles.noReviewsMessage}>No reviews yet for this product. Be the first to write one!</p>
         )}
-        {/* Future: Add a "Write a Review" button/form here */}
       </div>
     </div>
   );

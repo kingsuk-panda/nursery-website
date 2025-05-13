@@ -26,7 +26,7 @@
   transform: scale(1.03);
 }
 .cardLink:hover .cardOverlay {
-  background-color: rgba(0, 0, 0, 0.35); /* Slightly darker overlay on hover too */
+  background-color: rgba(0, 0, 0, 0.35); /* Slightly darker on hover */
 }
 
 .categoryCard {
@@ -63,13 +63,9 @@
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  
-  /* 👇 Increased opacity for better text contrast 👇 */
-  background-color: rgba(0, 0, 0, 0.35); /* Was 0.3, try 35% black. You can also test 0.4 (40%) */
-  /* You can try 0.25 or 0.35 if 0.3 is too much/not enough */
-  
+  background-color: rgba(0, 0, 0, 0.3); /* Moderately dark overlay for light text */
   -webkit-backdrop-filter: blur(3px);   
-  backdrop-filter: blur(3px); /* Keep the blur for a soft effect */
+  backdrop-filter: blur(3px);           
   transition: background-color 0.3s ease;
   z-index: 2; 
 }
@@ -77,11 +73,14 @@
 .categoryName {
   font-family: 'GFS Didot', serif;
   font-size: clamp(1.5em, 4vw, 2.2em);
-  color: white; /* Or var(--background-color) for pastel beige */
-  font-weight: 400;
+  color: var(--background-color); /* Light text (pastel beige) */
+  font-weight: 400; 
+  
+  /* Strong dark shadow for light text */
   text-shadow: 
-    0px 1px 2px rgba(0, 0, 0, 0.7), /* Main dark shadow for definition */
-    0px 2px 4px rgba(0, 0, 0, 0.5);  /* Softer dark shadow for depth */
+    0px 1px 2px rgba(0, 0, 0, 0.75), /* Main definition */
+    0px 2px 4px rgba(0, 0, 0, 0.55);  /* Softer depth */
+  
   margin: 0;
-  text-transform: lowercase;
+  text-transform: lowercase; 
 }
