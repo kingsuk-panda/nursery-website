@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-// Removed CSSTransition, useRef imports
 import styles from './CategoryProductsPage.module.css';
 import ProductCard from '../components/ProductCard';
-// Removed import for old LoadingIndicator
-import LoadingOverlay from '../components/LoadingOverlay'; // Import the new overlay
+import LoadingOverlay from '../components/LoadingOverlay';
 
 // MOCK DATA (ensure image paths are correct)
 const allProducts = [
@@ -20,61 +18,57 @@ const allProducts = [
   { id: 'pc2', category: 'plant-care', name: 'Gardening Tool Set', price: 900, imageUrl: '/images/gardening-tools.jpg' },
 ];
 
-
 function CategoryProductsPage() {
   const { categoryName } = useParams(); 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
-  // Removed showContent state
 
   useEffect(() => {
     setIsLoading(true);
-    
-    // --- Simulate fetching products ---
     const filteredProducts = allProducts.filter(
       (product) => product.category.toLowerCase() === categoryName.toLowerCase()
     );
-    const fetchDataDuration = 1000; // Simulate 1 second fetch time (adjust as needed)
-    // --- End Simulation ---
+    const fetchDataDuration = 1000; 
     
-    // Removed the minLoadingTime logic
     const finishLoading = () => {
       setProducts(filteredProducts); 
       setIsLoading(false); 
     };
-
-    // Simulate the fetch completing
     setTimeout(finishLoading, fetchDataDuration); 
-
   }, [categoryName]);
 
   const pageTitle = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
   return (
     <div className={styles.categoryProductsContainer}>
-      {/* Render LoadingOverlay based on isLoading state */}
-      {/* The overlay component handles its own visibility */}
       <LoadingOverlay isActive={isLoading} />
 
-      {/* Render content structure always, but overlay will cover it when loading */}
-      {/* Optional: could add fade-in animation here if desired */}
-      <div className={styles.contentWrapper}> 
-          <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
-              <Link to="/products">Categories</Link> <span>&gt;</span> {pageTitle}
-          </nav>
-          <h1 className={styles.pageTitle}>{pageTitle}</h1>
-          {products.length === 0 && !isLoading ? ( // Show 'no products' only if not loading AND products array is empty
-              <p className={styles.noProducts}>
-                  No products found in this category yet.
-              </p>
-          ) : (
-              <div className={styles.productsGrid}> 
-                  {products.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                  ))}
-              </div>
-          )}
-      </div>
+      {/* The contentWrapper will still fade in, providing an entry for title/breadcrumbs */}
+      {!isLoading && (
+          <div className={styles.contentWrapper}> 
+              <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
+                  <Link to="/products">Categories</Link> <span>&gt;</span> {pageTitle}
+              </nav>
+              <h1 className={styles.pageTitle}>{pageTitle}</h1>
+              {products.length > 0 ? (
+                  // The grid itself doesn't need a separate fade-in class now
+                  <div className={styles.productsGrid}> 
+                      {products.map((product, index) => ( // Added index here
+                          <ProductCard 
+                            key={product.id} 
+                            product={product} 
+                            // Pass a staggered animation delay to each product card
+                            animationDelay={`${index * 0.1}s`} // Adjust 0.1s for faster/slower stagger
+                          />
+                      ))}
+                  </div>
+              ) : (
+                  <p className={styles.noProducts}>
+                      No products found in this category yet.
+                  </p>
+              )}
+          </div>
+      )}
     </div>
   );
 }

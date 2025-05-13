@@ -1,16 +1,38 @@
 /* client/src/components/ProductCard.module.css */
+
+/* 👇 Define the entry animation for product cards 👇 */
+@keyframes animateProductCardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(25px) scale(0.95); /* Start slightly down, smaller, and invisible */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* End at original position, full size, and visible */
+  }
+}
+
 .productCard {
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  
+  /* 👇 Apply the entry animation 👇 */
+  opacity: 0; /* Start invisible */
+  animation-name: animateProductCardIn;
+  animation-duration: 0.5s; /* Duration of the card's pop-in */
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards; /* Keep the final state */
+  /* animation-delay will be set via inline style from props */
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* For hover effects */
 }
 
 .productCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.02); /* Slightly modified hover, ensure scale(1.02) is from original if animation changes scale */
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
@@ -19,23 +41,23 @@
   color: inherit;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Make link area grow */
+  flex-grow: 1;
 }
 
 .productImage {
   width: 100%;
-  height: 200px; /* Fixed height for images, adjust as needed */
-  object-fit: cover; /* Cover the area, crop if needed */
+  height: 200px;
+  object-fit: cover;
   border-bottom: 1px solid #eee;
 }
 
 .productInfo {
   padding: 15px;
   text-align: center;
-  flex-grow: 1; /* Allow info to take space if card heights vary */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Pushes price to bottom if name is short */
+  justify-content: space-between;
 }
 
 .productName {
@@ -50,24 +72,5 @@
   font-size: 1em;
   font-weight: bold;
   color: var(--primary-color);
-  margin-top: auto; /* Pushes price to bottom if using flex */
+  margin-top: auto;
 }
-
-/* Styles for a potential Add to Cart button - uncomment when needed
-.addToCartButton {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 0 0 8px 8px; // Only round bottom corners if it's at the very bottom
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
-  width: 100%; // Make it full width of the card
-  margin-top: 10px; // If inside .productInfo
-}
-
-.addToCartButton:hover {
-  background-color: var(--secondary-color);
-}
-*/
