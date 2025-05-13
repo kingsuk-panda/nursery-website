@@ -11,42 +11,71 @@
   box-sizing: border-box;
 }
 
-/* Removed LoadingIndicator exit animation classes */
-/* @keyframes fadeAndFlyUp { ... } */
-/* .loadingIndicatorExit { ... } */
-/* .loadingIndicatorExitActive { ... } */
-
-/* Removed Content fade-in keyframes and wrapper classes - can be added back if desired */
-/*
-@keyframes fadeInContent { ... }
-.contentWrapper { ... }
-.contentHidden { ... }
-.contentFadeIn { ... }
-.gridFadeIn { ... } 
-*/
-
-/* Styles for the content wrapper - adjust if needed */
-.contentWrapper {
-  /* Add styles here if you want specific layout for the wrapper */
+/* Keyframes for the content fade-in (used by .contentWrapper) */
+@keyframes fadeInContent {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
-/* Breadcrumbs, PageTitle, ProductsGrid, NoProducts styles remain the same */
+/* Wrapper for the content that fades in */
+.contentWrapper {
+  opacity: 0; /* Start hidden */
+  animation: fadeInContent 0.5s ease-out forwards;
+  /* animation-delay: 0s; (default or set if needed) */
+}
+
+
+/* === Updated Breadcrumb Styles Start === */
 .breadcrumbs { 
   margin-bottom: 20px;
   font-size: 0.9em;
   color: var(--text-color);
+  /* The whole breadcrumb line will fade in due to .contentWrapper animation */
 }
+
 .breadcrumbs a {
   color: var(--primary-color);
-  text-decoration: none;
+  text-decoration: none; /* Remove default underline */
+  position: relative;      /* Needed for the ::after pseudo-element */
+  padding-bottom: 3px;     /* Space for the underline to appear below text */
+  display: inline-block;   /* Ensures padding-bottom works correctly */
+  transition: color 0.3s ease; /* Optional: smooth color transition */
 }
-.breadcrumbs a:hover {
-  text-decoration: underline;
+
+/* The animated underline using a pseudo-element */
+.breadcrumbs a::after {
+  content: '';
+  position: absolute;
+  width: 0; /* Start with no width (invisible) */
+  height: 1.5px; /* Thickness of the underline */
+  bottom: 0; /* Position it at the bottom of the padding area */
+  left: 0; /* Start from the left */
+  background-color: var(--primary-color); /* Color of the underline */
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth animation for width */
 }
+
+/* When hovering over the link, expand the underline */
+.breadcrumbs a:hover::after {
+  width: 100%; /* Animate to full width */
+}
+
+/* Optional: Slightly change link color on hover too */
+/* .breadcrumbs a:hover {
+  color: var(--secondary-color); 
+} */
+
 .breadcrumbs span {
-  margin: 0 5px;
-  color: #888;
+  margin: 0 8px; /* Slightly increased spacing around '>' */
+  color: #777; /* Slightly darker separator */
 }
+/* === Updated Breadcrumb Styles End === */
+
 
 .pageTitle { 
   text-align: center;
@@ -54,12 +83,14 @@
   color: var(--text-color);
   margin-bottom: 30px;
   font-family: 'GFS Didot', serif;
+  /* This also fades in due to .contentWrapper animation */
 }
 
 .productsGrid { 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
   gap: 25px;
+  /* This also fades in due to .contentWrapper animation */
 }
 
 .noProducts { 
@@ -67,4 +98,5 @@
   font-size: 1.2em;
   padding: 50px 0;
   color: var(--text-color);
+  /* This also fades in due to .contentWrapper animation */
 }
