@@ -7,13 +7,32 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
 }
 
 :root {
-  --primary-color: #4CAF50;
-  --secondary-color: #8BC34A;
-  --background-color: #f5eee7;  /* << UPDATED global background color */
-  --text-color: #333333;         /* Dark gray text (contrast with #f5eee7 is excellent) */
-  --accent-color: #A1887F;
-  --nav-text-color: white;       /* For navbar text, generally */
-  --navbar-height: 70px;         /* Approximate height of your navbar, adjust as needed */
+  /* === Updated Green Palette Based on Your Choice === */
+  --primary-color: #79A17F;     /* Your chosen base green (RGB: 121, 161, 127) */
+  --secondary-color: #658D6B;   /* Darker version for hover (RGB: 101, 141, 107) */
+
+  /* --- Transparent versions for other uses (like your hero button) --- */
+  /* Opacity values (e.g., 0.7 for 70%) can be adjusted as needed. */
+  
+  /* Based on new --primary-color: #79A17F (RGB: 121, 161, 127) */
+  --primary-color-transparent-heavy: rgba(121, 161, 127, 0.7);  
+  --primary-color-transparent-medium: rgba(121, 161, 127, 0.5); 
+  --primary-color-transparent-light: rgba(121, 161, 127, 0.3);  
+
+  /* Based on new --secondary-color: #658D6B (RGB: 101, 141, 107) */
+  --secondary-color-transparent-heavy: rgba(101, 141, 107, 0.75); 
+  --secondary-color-transparent-medium: rgba(101, 141, 107, 0.55);
+  --secondary-color-transparent-light: rgba(101, 141, 107, 0.35); 
+  
+
+  /* === Your Other Existing Variables (Keep these) === */
+  --background-color: #f5eee7;    /* Your Pastel Beige */
+  --text-color: #333333;          /* Main text color */
+  --text-color-dark: #2c3e50;     /* For darker text, headings */
+  --text-color-soft: #555555;     /* For less prominent text, descriptions */
+  --navbar-height: 70px;          /* Height of your navbar */
+  
+  /* Add any other global variables you have here */
 }
 
 body {
