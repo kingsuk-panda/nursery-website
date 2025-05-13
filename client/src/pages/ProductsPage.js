@@ -2,17 +2,14 @@ import React from 'react';
 import styles from './ProductsPage.module.css';
 import CategoryCard from '../components/CategoryCard';
 
-// 👇 Update to use videoUrl and provide paths to your actual category videos 👇
-// Make sure these video files exist in your src/assets/videos/ or public/videos/
-// If in src/assets, you'll need to import them first.
-// If in public, you can use direct paths like '/videos/category-plants.mp4'.
-// For simplicity, assuming you'll import them:
+// 👇 Import your new background video for this page
+import pageBackgroundVideo from '../assets/videos/products-page-bg.mp4'; // Replace with your actual video file
 
-import plantsVideo from '../assets/videos/category-plants.mp4'; // Example import
-import seedsVideo from '../assets/videos/category-seeds.mp4';   // Example import
-import potsVideo from '../assets/videos/category-pots.mp4';     // Example import
-import careVideo from '../assets/videos/category-plant-care.mp4'; // Example import
-
+// Category video imports (ensure these paths are correct)
+import plantsVideo from '../assets/videos/category-plants.mp4';
+import seedsVideo from '../assets/videos/category-seeds.mp4';
+import potsVideo from '../assets/videos/category-pots.mp4';
+import careVideo from '../assets/videos/category-plant-care.mp4';
 
 const categories = [
   { name: 'Plants', path: '/products/plants', videoUrl: plantsVideo }, 
@@ -24,17 +21,36 @@ const categories = [
 function ProductsPage() {
   return (
     <div className={styles.productsPageContainer}>
-      <h1 className={styles.pageTitle}>Our Products</h1>
-      <div className={styles.categoryGrid}>
-        {categories.map((category, index) => (
-          <CategoryCard
-            key={category.name}
-            name={category.name}
-            linkTo={category.path}
-            videoUrl={category.videoUrl} // Pass videoUrl prop
-            animationDelay={`${index * 0.15}s`}
-          />
-        ))}
+      {/* Background Video */}
+      <video 
+        className={styles.pageBackgroundVideo} 
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
+        key={pageBackgroundVideo} // Helps React re-render if src changes
+      >
+        <source src={pageBackgroundVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
+      {/* Overlay for readability */}
+      <div className={styles.videoOverlay}></div>
+
+      {/* Page Content (Title and Category Grid) */}
+      <div className={styles.pageContentWrapper}> {/* New wrapper for content */}
+        <h1 className={styles.pageTitle}>Our Products</h1>
+        <div className={styles.categoryGrid}>
+          {categories.map((category, index) => (
+            <CategoryCard
+              key={category.name}
+              name={category.name}
+              linkTo={category.path}
+              videoUrl={category.videoUrl}
+              animationDelay={`${index * 0.15}s`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

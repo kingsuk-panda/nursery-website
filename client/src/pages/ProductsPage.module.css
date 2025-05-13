@@ -1,41 +1,87 @@
 /* client/src/pages/ProductsPage.module.css */
 .productsPageContainer {
-  padding-top: var(--navbar-height); /* To account for fixed navbar */
-  padding-bottom: 40px;
-  min-height: calc(100vh - var(--navbar-height)); /* Full height minus navbar */
-  background-color: var(--background-color); /* Uses your global background */
+  padding-top: var(--navbar-height); /* Account for fixed navbar */
+  min-height: calc(100vh - var(--navbar-height)); /* Attempt full available height */
+  position: relative; /* For positioning video, overlay, and content wrapper */
+  overflow: hidden;   /* To contain the video */
+  display: flex; /* To help center content wrapper if needed, or just for structure */
+  flex-direction: column; /* Stack content vertically */
+  /* background-color: var(--background-color); */ /* Video will be the background now */
+}
+
+.pageBackgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire container */
+  z-index: 1;        /* Bottom-most layer */
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Adjust overlay color and opacity for readability. 
+     This example uses your page's background color with some opacity.
+     Or use a dark overlay: background-color: rgba(0, 0, 0, 0.5); */
+  background-color: rgba(245, 238, 231, 0.6); /* Based on your #f5eee7 with opacity */
+  /* Or a darker tint if videos are very bright: background-color: rgba(50, 50, 50, 0.4); */
+  z-index: 2;        /* Above video, below content */
+}
+
+/* New wrapper for actual page content to sit above video/overlay */
+.pageContentWrapper {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding-bottom: 40px; /* Bottom padding for content */
+  /* The following flex properties are to center the content if it doesn't fill the height */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center .pageTitle and .categoryGrid horizontally */
 }
 
 .pageTitle {
   text-align: center;
   font-size: 2.5em;
-  color: var(--text-color);
+  /* 👇 Text color might need to change based on video/overlay 👇 */
+  color: var(--text-color); /* Current dark gray. Change to white if overlay is dark */
+  /* If using a light overlay (like the example above), a darker text color might still work */
+  /* color: white; */ 
+  /* text-shadow: 0 1px 3px rgba(0,0,0,0.5); */ /* Add if using white text on complex video */
   margin-top: 40px;
   margin-bottom: 40px;
-  font-family: 'GFS Didot', serif; /* Or your preferred heading font */
-  animation: fadeInUp 0.6s ease-out 0.1s forwards; /* Example delay and duration */
+  font-family: 'GFS Didot', serif;
 }
 
 .categoryGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Keeps the 2x2 grid for 4 items */
-  gap: 20px; /* Reduced gap from 30px */
-  max-width: 500px; /* Reduced max-width from 900px to make cards smaller */
-  margin: 0 auto; /* Center the grid */
-  padding: 0 20px; /* Padding on the sides of the grid */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 500px; 
+  width: 100%; /* Ensure it takes up space within the centered wrapper */
+  padding: 0 20px; /* Keep side padding for the grid content */
+  box-sizing: border-box;
+  /* No specific z-index needed here as parent .pageContentWrapper handles it */
 }
 
-/* Responsive: for smaller screens, stack them (1 column) */
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .categoryGrid {
     grid-template-columns: 1fr;
-    gap: 20px; /* Keep gap consistent or adjust */
-    max-width: 280px; /* Reduced max-width for single column view for smaller cards */
-                     /* Or keep it larger if you want mobile cards to be more prominent */
+    max-width: 280px;
   }
   .pageTitle {
     font-size: 2em;
     margin-top: 30px;
     margin-bottom: 30px;
+  }
+  .productsPageContainer {
+    padding-top: calc(var(--navbar-height) + 10px); /* Ensure enough space below navbar on mobile */
   }
 }
