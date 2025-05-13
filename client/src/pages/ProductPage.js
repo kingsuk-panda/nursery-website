@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom'; // Link for breadcrumbs
+import { useParams, Link } from 'react-router-dom';
 import styles from './ProductPage.module.css';
-import LoadingOverlay from '../components/LoadingOverlay'; // Re-use our loading overlay
+import LoadingOverlay from '../components/LoadingOverlay';
+import PageRevealWipe from '../components/PageRevealWipe'; // Import the new wipe component
 
-// MOCK DATA - Copied here for now. Ideally, this comes from a shared service or API.
-// Ensure image paths are correct for your public/images/ folder
+// MOCK DATA (ensure image paths and descriptions are correct)
 const allProducts = [
   { id: 'p1', category: 'plants', name: 'Monstera Deliciosa', price: 1200, imageUrl: '/images/monstera.jpg', description: 'A popular and easy-to-care-for houseplant known for its unique, Swiss cheese-like leaves. Thrives in bright, indirect light.' },
   { id: 'p2', category: 'plants', name: 'Snake Plant', price: 800, imageUrl: '/images/snake-plant.jpg', description: 'A hardy succulent that can grow almost anywhere. It filters indoor air and is very low maintenance.' },
@@ -17,34 +17,42 @@ const allProducts = [
   { id: 'pc1', category: 'plant-care', name: 'Organic Fertilizer', price: 250, imageUrl: '/images/fertilizer.jpg', description: 'All-purpose organic fertilizer to nourish your plants and promote healthy growth. Safe for all plant types.' },
   { id: 'pc2', category: 'plant-care', name: 'Gardening Tool Set', price: 900, imageUrl: '/images/gardening-tools.jpg', description: 'A basic 3-piece gardening tool set including a trowel, cultivator, and transplanter. Durable and comfortable to use.' },
 ];
-// Also ensure you have a placeholder for missing images, e.g., in public/images/
 const placeholderImage = '/images/placeholder-plant.jpg';
 
 
 function ProductPage() {
-  const { productId } = useParams(); // Get productId from URL
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingData, setIsLoadingData] = useState(true); // For data fetching
+  const [isPageRevealing, setIsPageRevealing] = useState(true); // For the wipe animation
+  const [showActualContent, setShowActualContent] = useState(false); // For content fade-in
 
   useEffect(() => {
-    setIsLoading(true);
-    // Simulate finding the product from our mock data
-    // In a real app, this would be: fetch(`/api/products/${productId}`)
+    setIsLoadingData(true);
+    setIsPageRevealing(true); // Start with page covered for reveal
+    setShowActualContent(false);
+
     const foundProduct = allProducts.find(p => p.id === productId);
     
-    // Simulate a bit of delay as if fetching from an API
-    setTimeout(() => {
+    setTimeout(() => { // Simulate data fetch
       setProduct(foundProduct);
-      setIsLoading(false);
-    }, 500); // 0.5 second delay
+      setIsLoadingData(false);
+      // Once data loading is done, the PageRevealWipe (if not loading) will start its animation.
+      // PageRevealWipe's onWipeComplete will then set showActualContent.
+    }, 700); // Adjust simulated fetch time
 
-  }, [productId]); // Re-run effect if productId changes
+  }, [productId]);
 
-  if (isLoading) {
+  const handleWipeComplete = () => {
+    setIsPageRevealing(false); // Wipe is done
+    setShowActualContent(true); // Now show the content
+  };
+
+  if (isLoadingData && !product) { // Show main loading overlay only during initial data fetch
     return <LoadingOverlay isActive={true} />;
   }
 
-  if (!product) {
+  if (!product && !isLoadingData) { // Product not found after loading
     return (
       <div className={styles.productPageContainer}>
         <div className={styles.notFound}>Product not found!</div>
@@ -53,46 +61,45 @@ function ProductPage() {
   }
 
   // Capitalize category for breadcrumb
-  const categoryDisplayName = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+  const categoryDisplayName = product?.category.charAt(0).toUpperCase() + product.category.slice(1);
 
   return (
-    <div className={styles.productPageContainer}>
-      <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
-        <Link to="/products">Categories</Link> <span>&gt;</span> 
-        <Link to={`/products/${product.category.toLowerCase()}`}>{categoryDisplayName}</Link> <span>&gt;</span> 
-        {product.name}
-      </nav>
+    <> {/* Use Fragment to allow PageRevealWipe and container to be siblings */}
+      {/* The wipe component is active after data loading and before content is fully shown */}
+      {!isLoadingData && isPageRevealing && <PageRevealWipe onWipeComplete={handleWipeComplete} />}
+      
+      <div 
+        className={`${styles.productPageContainer} ${showActualContent ? styles.contentVisible : styles.contentHidden}`}
+      >
+        <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
+          <Link to="/products">Categories</Link> <span>&gt;</span> 
+          {product && <Link to={`/products/${product.category.toLowerCase()}`}>{categoryDisplayName}</Link>}
+          <span>&gt;</span> 
+          {product?.name}
+        </nav>
 
-      <div className={styles.productDetailLayout}>
-        <div className={styles.productImageColumn}>
-          <img 
-            src={product.imageUrl || placeholderImage} 
-            alt={product.name} 
-            className={styles.productImage} 
-          />
-          {/* Future: Add image gallery/carousel here if multiple images */}
-        </div>
-
-        <div className={styles.productInfoColumn}>
-          <h1 className={styles.productName}>{product.name}</h1>
-          <p className={styles.productPrice}>₹{product.price.toFixed(2)}</p>
-          
-          <div className={styles.descriptionSection}>
-            <h2 className={styles.sectionTitle}>Description</h2>
-            <p className={styles.productDescription}>{product.description || "No description available."}</p>
+        <div className={styles.productDetailLayout}>
+          <div className={styles.productImageColumn}>
+            <img 
+              src={product?.imageUrl || placeholderImage} 
+              alt={product?.name} 
+              className={styles.productImage} 
+            />
           </div>
 
-          {/* Future: Quantity Selector */}
-          {/* <div className={styles.quantitySelector}> ... </div> */}
-
-          <button className={styles.addToCartButton}>Add to Cart</button>
-          {/* Future: Add to Wishlist, Share buttons */}
+          <div className={styles.productInfoColumn}>
+            <h1 className={styles.productName}>{product?.name}</h1>
+            <p className={styles.productPrice}>₹{product?.price?.toFixed(2)}</p>
+            
+            <div className={styles.descriptionSection}>
+              <h2 className={styles.sectionTitle}>Description</h2>
+              <p className={styles.productDescription}>{product?.description || "No description available."}</p>
+            </div>
+            <button className={styles.addToCartButton}>Add to Cart</button>
+          </div>
         </div>
       </div>
-
-      {/* Future: Related Products Section */}
-      {/* <div className={styles.relatedProducts}> ... </div> */}
-    </div>
+    </>
   );
 }
 

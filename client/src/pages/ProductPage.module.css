@@ -8,13 +8,30 @@
   /* margin: 0 auto; */
   /* padding-left: 20px; */
   /* padding-right: 20px; */
-  animation: fadeInContent 0.5s ease-out forwards; /* Use existing fade-in */
+
+  /* REMOVED: animation: fadeInContent 0.5s ease-out forwards; */
+  /* The animation is now controlled by .contentVisible class */
 }
 
-@keyframes fadeInContent { /* Ensure this is defined or imported if used */
+@keyframes fadeInContent { /* This keyframe definition is good, keep it */
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* 👇 New classes to control content visibility and animation 👇 */
+.contentHidden {
+  opacity: 0;
+  visibility: hidden; /* Hides content completely and prevents interaction */
+}
+
+.contentVisible {
+  opacity: 1;
+  visibility: visible;
+  animation: fadeInContent 0.5s ease-out forwards;
+  animation-delay: 0.1s; /* Optional: slight delay after wipe for smoother transition */
+}
+/* --- End of new classes --- */
+
 
 .breadcrumbs {
   margin-bottom: 25px;
