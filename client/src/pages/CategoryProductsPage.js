@@ -18,10 +18,12 @@ const allProducts = [
   { id: 'pc2', category: 'plant-care', name: 'Gardening Tool Set', price: 900, imageUrl: '/images/gardening-tools.jpg' },
 ];
 
+
 function CategoryProductsPage() {
   const { categoryName } = useParams(); 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
+  // Removed hoveredProductId state
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,7 +45,6 @@ function CategoryProductsPage() {
     <div className={styles.categoryProductsContainer}>
       <LoadingOverlay isActive={isLoading} />
 
-      {/* The contentWrapper will still fade in, providing an entry for title/breadcrumbs */}
       {!isLoading && (
           <div className={styles.contentWrapper}> 
               <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
@@ -51,14 +52,13 @@ function CategoryProductsPage() {
               </nav>
               <h1 className={styles.pageTitle}>{pageTitle}</h1>
               {products.length > 0 ? (
-                  // The grid itself doesn't need a separate fade-in class now
                   <div className={styles.productsGrid}> 
-                      {products.map((product, index) => ( // Added index here
+                      {products.map((product, index) => (
                           <ProductCard 
                             key={product.id} 
                             product={product} 
-                            // Pass a staggered animation delay to each product card
-                            animationDelay={`${index * 0.1}s`} // Adjust 0.1s for faster/slower stagger
+                            animationDelay={`${index * 0.1}s`}
+                            // Removed hover-related props and handlers
                           />
                       ))}
                   </div>

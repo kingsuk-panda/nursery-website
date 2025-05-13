@@ -1,14 +1,13 @@
 /* client/src/components/ProductCard.module.css */
 
-/* 👇 Define the entry animation for product cards 👇 */
 @keyframes animateProductCardIn {
   0% {
     opacity: 0;
-    transform: translateY(25px) scale(0.95); /* Start slightly down, smaller, and invisible */
+    transform: translateY(25px) scale(0.95);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1); /* End at original position, full size, and visible */
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -20,21 +19,33 @@
   display: flex;
   flex-direction: column;
   
-  /* 👇 Apply the entry animation 👇 */
-  opacity: 0; /* Start invisible */
+  opacity: 0; 
   animation-name: animateProductCardIn;
-  animation-duration: 0.5s; /* Duration of the card's pop-in */
+  animation-duration: 0.5s; 
   animation-timing-function: ease-out;
-  animation-fill-mode: forwards; /* Keep the final state */
-  /* animation-delay will be set via inline style from props */
+  animation-fill-mode: forwards; 
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* For hover effects */
+  /* 👇 Ensure transitions are set for transform and box-shadow for hover effect 👇 */
+  transition: 
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  position: relative; /* For z-index on hover if needed */
+  z-index: 1; /* Default z-index */
 }
 
+/* 👇 New simple CSS :hover effect for the card itself 👇 */
 .productCard:hover {
-  transform: translateY(-5px) scale(1.02); /* Slightly modified hover, ensure scale(1.02) is from original if animation changes scale */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transform: scale(1.05) translateY(-5px); /* Pop up: scale up and lift */
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 6px 10px rgba(0,0,0,0.1); /* Enhanced shadow */
+  z-index: 10; /* Bring to front on hover to overlap siblings if they are close */
 }
+
+/* Remove old JS-driven hover state classes */
+/*
+.isHovered { ... }
+.isDimmed { ... }
+*/
 
 .cardLink {
   text-decoration: none;
@@ -49,6 +60,12 @@
   height: 200px;
   object-fit: cover;
   border-bottom: 1px solid #eee;
+  transition: transform 0.35s ease-in-out; 
+}
+
+/* Optional: Image zoom on card hover */
+.productCard:hover .productImage {
+  transform: scale(1.03);
 }
 
 .productInfo {
