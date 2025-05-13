@@ -2,8 +2,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-// import Products from './pages/Products'; // We'll replace this
-import ProductsPage from './pages/ProductsPage'; // Import the new page for category display
+import ProductsPage from './pages/ProductsPage'; // Shows category cards
+import CategoryProductsPage from './pages/CategoryProductsPage'; // ADDED: Shows products for a specific category
 import ProductPage from './pages/ProductPage';   // For individual product details later
 import Login from './pages/Login';
 import Account from './pages/Account';
@@ -16,46 +16,34 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <Navbar /> {/* Navbar is fixed, rendered on all pages */}
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Home page handles its own full-screen hero layout */}
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductsPage />} />
         
-        {/* Updated /products route to use ProductsPage */}
-        <Route path="/products" element={<ProductsPage />} /> 
+        {/* 👇 ADDED: Dynamic route for displaying products of a specific category 👇 */}
+        <Route path="/products/:categoryName" element={
+          // This page will handle its own layout including navbar spacing
+          <CategoryProductsPage /> 
+        } />
         
-        {/* For other pages, wrap their content in a container that respects the navbar */}
-        <Route path="/products/:productId" element={ 
-          // This route will be for showing a single product's details.
-          // It still uses the container for standard page layout.
+        {/* Route for individual product details - ensure it doesn't clash or order correctly.
+            If product IDs are unique and don't look like category names (e.g., 'plants'), this is okay.
+            A more specific path like /product/:productId might be safer later if needed.
+            For now, assuming categoryName will not be a product ID.
+        */}
+        <Route path="/product/:productId" element={ // Changed from /products/:productId to avoid conflict for now
           <div className="container page-content">
             <ProductPage />
           </div>
         } />
-        <Route path="/login" element={
-          <div className="container page-content">
-            <Login />
-          </div>
-        } />
-        <Route path="/account" element={
-          <div className="container page-content">
-            <Account />
-          </div>
-        } />
-        <Route path="/cart" element={
-          <div className="container page-content">
-            <Cart />
-          </div>
-        } />
-        <Route path="/checkout" element={
-          <div className="container page-content">
-            <Checkout />
-          </div>
-        } />
-        <Route path="/about" element={
-          <div className="container page-content">
-            <About />
-          </div>
-        } />
+
+        {/* Other page routes */}
+        <Route path="/login" element={<div className="container page-content"><Login /></div>} />
+        <Route path="/account" element={<div className="container page-content"><Account /></div>} />
+        <Route path="/cart" element={<div className="container page-content"><Cart /></div>} />
+        <Route path="/checkout" element={<div className="container page-content"><Checkout /></div>} />
+        <Route path="/about" element={<div className="container page-content"><About /></div>} />
       </Routes>
     </Router>
   );

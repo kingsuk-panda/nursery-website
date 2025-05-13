@@ -1,0 +1,50 @@
+/* client/src/pages/CategoryProductsPage.module.css */
+.categoryProductsContainer {
+  padding-top: calc(var(--navbar-height) + 20px); /* Space below fixed navbar */
+  padding-bottom: 40px;
+  min-height: calc(100vh - var(--navbar-height));
+  background-color: var(--background-color);
+  max-width: 1200px; /* Standard content width */
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.breadcrumbs {
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  color: var(--text-color);
+}
+.breadcrumbs a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.breadcrumbs a:hover {
+  text-decoration: underline;
+}
+.breadcrumbs span {
+  margin: 0 5px;
+  color: #888;
+}
+
+.pageTitle {
+  text-align: center;
+  font-size: 2.2em;
+  color: var(--text-color);
+  margin-bottom: 30px;
+  font-family: 'GFS Didot', serif;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 25px;
+}
+
+.loading, .noProducts {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 50px 0;
+  color: var(--text-color);
+}
