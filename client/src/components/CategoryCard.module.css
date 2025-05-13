@@ -13,7 +13,7 @@
 
 .cardLink {
   text-decoration: none;
-  color: inherit;
+  color: inherit; 
   display: block;
   opacity: 0; 
   animation-name: popIn;
@@ -26,7 +26,7 @@
   transform: scale(1.03);
 }
 .cardLink:hover .cardOverlay {
-  background-color: rgba(0, 0, 0, 0.25); /* Adjusted from 0.35, was a bit dark with reduced blur */
+  background-color: rgba(0, 0, 0, 0.35); /* Slightly darker overlay on hover too */
 }
 
 .categoryCard {
@@ -63,27 +63,25 @@
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.1); 
-  -webkit-backdrop-filter: blur(4px);   
-  backdrop-filter: blur(4px);           
+  
+  /* 👇 Increased opacity for better text contrast 👇 */
+  background-color: rgba(0, 0, 0, 0.35); /* Was 0.3, try 35% black. You can also test 0.4 (40%) */
+  /* You can try 0.25 or 0.35 if 0.3 is too much/not enough */
+  
+  -webkit-backdrop-filter: blur(3px);   
+  backdrop-filter: blur(3px); /* Keep the blur for a soft effect */
   transition: background-color 0.3s ease;
   z-index: 2; 
 }
 
-/* 👇 Updated Category Name Styles 👇 */
 .categoryName {
   font-family: 'GFS Didot', serif;
-  font-size: clamp(1.5em, 4vw, 2.2em); /* Keep responsive font size */
-  color: white; /* Text color is white */
-  
-  /* Explicitly set font-weight to its standard for GFS Didot */
-  font-weight: 400; 
-  
-  /* Enhanced text-shadow for better readability on video */
+  font-size: clamp(1.5em, 4vw, 2.2em);
+  color: white; /* Or var(--background-color) for pastel beige */
+  font-weight: 400;
   text-shadow: 
-    0px 1px 2px rgba(0, 0, 0, 0.85), /* Slightly tighter, darker shadow for edge definition */
-    0px 2px 5px rgba(0, 0, 0, 0.5);  /* Softer, more spread shadow */
-  
+    0px 1px 2px rgba(0, 0, 0, 0.7), /* Main dark shadow for definition */
+    0px 2px 4px rgba(0, 0, 0, 0.5);  /* Softer dark shadow for depth */
   margin: 0;
-  text-transform: lowercase; /* Ensure text is lowercase as per previous request */
+  text-transform: lowercase;
 }

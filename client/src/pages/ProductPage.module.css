@@ -3,9 +3,9 @@
 /* --- Page Entry Animations --- */
 @keyframes blurInImageEffect {
   0% {
-    opacity: 0; /* Start with 0 opacity for smoother fade-in with blur */
-    filter: blur(10px);
-    transform: scale(1.05);
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(1.03);
   }
   100% {
     opacity: 1;
@@ -14,10 +14,10 @@
   }
 }
 
-@keyframes fadeInTextEffect { /* Used for breadcrumbs and main text info column */
+@keyframes fadeInTextEffect {
   0% {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(12px);
   }
   100% {
     opacity: 1;
@@ -29,177 +29,393 @@
 
 .productPageContainer {
   /* Basic layout styles */
-  /* Padding and max-width are often handled by a wrapper in App.js like .container .page-content */
 }
 
 .contentHiddenInitially {
-  opacity: 0; /* Keep main container's content hidden before animation state is set */
+  opacity: 0;
 }
 .contentIsReady {
-  opacity: 1; /* Makes container logically visible, children handle their own animations */
-  /* No transition here, as children animate individually */
+  opacity: 1;
+  transition: opacity 0.1s ease-in; /* Quick fade for container if needed */
 }
 
 
-/* === Breadcrumb Styles (Entry Animation + Hover Underline) === */
 .breadcrumbs {
-  margin-bottom: 25px;
-  font-size: 0.9em;
-  color: var(--text-color);
-  opacity: 0; /* Start hidden for its own entry animation */
+  margin-bottom: 20px; /* Reduced margin */
+  font-size: 0.85em; /* Slightly smaller */
+  color: var(--text-color-soft);
+  opacity: 0;
 }
-.breadcrumbs.textFadeIn { /* Applied from JS when content is ready */
-  animation: fadeInTextEffect 0.6s ease-out 0.1s forwards; /* Staggered entry for breadcrumbs */
+.breadcrumbs.textFadeIn {
+  animation: fadeInTextEffect 0.6s ease-out 0.1s forwards;
 }
-
-/* Styles for the links within breadcrumbs, including animated underline */
 .breadcrumbs a {
   color: var(--primary-color);
   text-decoration: none;
-  position: relative;      /* For the ::after pseudo-element */
-  padding-bottom: 3px;     /* Space for the underline (was 2px, adjusted for consistency) */
-  display: inline-block;   /* Consistent padding behavior */
-  transition: color 0.3s ease; /* Optional: smooth color transition on hover */
+  position: relative;
+  padding-bottom: 2px;
+  font-weight: 500;
 }
-
 .breadcrumbs a::after {
   content: '';
   position: absolute;
-  width: 0;                /* Start with no width */
-  height: 1.5px;           /* Underline thickness (was 1px, adjusted for visibility) */
-  bottom: 0;               /* Position at the bottom of padding */
-  left: 0;                 /* Align to the left */
-  background-color: var(--primary-color); /* Underline color */
-  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animation for width */
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease-in-out;
 }
-
 .breadcrumbs a:hover::after {
-  width: 100%;             /* Expand underline to full width on hover */
+  width: 100%;
 }
-
 .breadcrumbs span {
-  margin: 0 8px;
-  color: #777;
+  margin: 0 6px;
+  color: #999;
 }
-/* === End Breadcrumb Styles === */
 
 
 .productDetailLayout {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 40px;
+  grid-template-columns: 1fr 1.1fr; /* Adjusted ratio */
+  gap: 30px; /* Reduced gap */
   align-items: flex-start;
+  margin-top: 10px;
 }
 
 .productImageColumn {
-  /* Styles for image column */
+  position: sticky; /* Make image sticky on scroll */
+  top: calc(var(--navbar-height) + 20px); /* Adjust based on navbar height */
+  max-height: calc(100vh - var(--navbar-height) - 40px); /* Prevent overly tall sticky area */
 }
 
 .productImage {
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   height: auto;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  border-radius: 10px; /* Softer radius */
+  box-shadow: 0 5px 12px rgba(0,0,0,0.08);
   object-fit: cover;
-  opacity: 0; /* Start hidden for its own animation */
+  opacity: 0;
 }
-.productImage.imageAnim { /* Class to trigger image blur-in */
-  animation: blurInImageEffect 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  animation-delay: 0.05s; /* Start image animation slightly after container is ready */
+.productImage.imageAnim {
+  animation: blurInImageEffect 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.05s forwards;
 }
 
 
 .productInfoColumn {
   display: flex;
   flex-direction: column;
-  opacity: 0; /* Start hidden for its own animation */
+  opacity: 0;
 }
-.productInfoColumn.textFadeIn { /* Class to trigger text fade-in */
-  animation: fadeInTextEffect 0.7s ease-out forwards;
-  animation-delay: 0.25s; /* Delay text fade until image is partly visible */
+.productInfoColumn.textFadeIn {
+  animation: fadeInTextEffect 0.7s ease-out 0.15s forwards; /* Slightly faster & earlier */
 }
 
 
-/* Individual text elements */
 .productName {
-  font-family: 'GFS Didot', serif;
-  font-size: 2.4em;
-  font-weight: 600;
-  color: var(--text-color-dark);
-  margin-bottom: 15px;
-  line-height: 1.3;
+  font-family: 'GFS Didot', serif; 
+  font-size: 2.2em; 
+  font-weight: 600; /* Normal is 400, bold is 700 */
+  color: var(--text-color-dark); 
+  margin-bottom: 10px; /* Reduced margin */
+  line-height: 1.25;
 }
 
-.productPrice {
-  font-size: 1.8em;
+.ratingSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px; /* Reduced margin */
+  font-size: 0.9em;
+}
+.starsDisplay {
+  color: #ffc107; /* Bright yellow for stars */
+  font-size: 1.1em; 
+  letter-spacing: 1px; /* Space out stars slightly */
+}
+.starFull { color: #ffc107; }
+.starHalf { /* For a true half star, use an SVG or icon font; this is a placeholder */
+  position: relative;
+  color: #ffc107;
+  /* A simple trick for a visual half: */
+  /* &::before { content: '★'; position: absolute; left: 0; width: 50%; overflow: hidden; color: #ffc107; } */
+  /* &::after { content: '☆'; color: #ccc; } */
+}
+.starEmpty { color: #e0e0e0; } /* Lighter grey for empty stars */
+
+.ratingValue {
   font-weight: bold;
-  color: var(--primary-color);
-  margin-bottom: 25px;
-}
-
-.sectionTitle {
-  font-family: 'Roboto Slab', serif;
-  font-size: 1.3em;
-  font-weight: 700;
   color: var(--text-color-dark);
-  margin-top: 20px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
+  margin-left: -4px; /* Pull it closer to stars */
 }
-
-.productDescription {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1em;
-  line-height: 1.7;
+.numReviewsLink {
   color: var(--text-color-soft);
-  margin-bottom: 30px;
-  white-space: pre-line;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--text-color-soft);
+  transition: color 0.2s ease;
+}
+.numReviewsLink:hover {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
 }
 
+
+.priceSection {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.currentPrice {
+  font-size: 1.9em;
+  font-weight: 700; /* Bolder price */
+  color: var(--primary-color);
+}
+.originalPrice {
+  font-size: 1em;
+  color: var(--text-color-soft);
+  text-decoration: line-through;
+  margin-left: -4px; /* Pull closer */
+}
+.discountBadge {
+  background-color: var(--primary-color-transparent-light); /* Use light version of primary */
+  color: var(--primary-color); /* Use primary color for text */
+  border: 1px solid var(--primary-color-transparent-medium);
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-left: -2px;
+}
+
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 6px;
+}
+.quantityLabel {
+  margin-right: 10px;
+  font-weight: 500;
+  font-size: 0.95em;
+  color: var(--text-color-dark);
+}
+.quantitySelector button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: var(--text-color-dark);
+  width: 32px;
+  height: 32px;
+  font-size: 1.3em;
+  line-height: 1; /* Center the text better */
+  cursor: pointer;
+  border-radius: 50%; /* Round buttons */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quantitySelector button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+.quantitySelector button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.quantityInput {
+  width: 45px;
+  height: 32px;
+  text-align: center;
+  font-size: 1em;
+  font-weight: 500;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: var(--text-color-dark);
+  -moz-appearance: textfield;
+  margin: 0 2px; /* Add a little space around input */
+}
+.quantityInput::-webkit-outer-spin-button,
+.quantityInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+.addToCartButton, .buyNowButton {
+  padding: 12px 20px; /* Adjusted padding */
+  font-size: 0.95em; /* Slightly smaller font */
+  font-weight: 600; /* Less bold */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  border: none;
+  flex-grow: 1; /* Allow buttons to grow and share space */
+  min-width: 160px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
 .addToCartButton {
   background-color: var(--primary-color);
   color: white;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-size: 1.1em;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  align-self: flex-start;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-
 .addToCartButton:hover {
   background-color: var(--secondary-color);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 7px rgba(0,0,0,0.15);
 }
-.addToCartButton:active {
-  transform: translateY(0px) scale(0.98);
+.buyNowButton {
+  background-color: #f7f7f7; 
+  color: var(--text-color-dark);
+  border: 1px solid #ddd;
+}
+.buyNowButton:hover {
+  background-color: #ededed;
+  border-color: #ccc;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 7px rgba(0,0,0,0.1);
 }
 
-.notFound {
-  text-align: center;
-  font-size: 1.5em;
-  padding: 50px 20px;
-  color: var(--text-color);
+
+.descriptionSection {
+  margin-top: 10px; /* Reduced margin */
 }
+.sectionTitle {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-top: 15px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 6px;
+}
+.productDescription {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.95em;
+  line-height: 1.75;
+  color: var(--text-color-soft);
+  margin-bottom: 20px;
+  white-space: pre-line;
+}
+
+
+.reviewsSection {
+  margin-top: 35px;
+  padding-top: 25px;
+  border-top: 1px solid #e0e0e0;
+  opacity: 0;
+}
+.reviewsSection.textFadeInDelayed {
+   animation: fadeInTextEffect 0.7s ease-out 0.35s forwards; 
+}
+.sectionTitleFullWidth { /* For "Ratings & Reviews" heading */
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.5em; /* Larger section title */
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 20px;
+  text-align: left; /* Or center if you prefer */
+}
+
+.reviewList {
+    /* Styles for the container of all reviews if needed */
+}
+.reviewItem {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 0;
+  margin-bottom: 16px;
+}
+.reviewItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+.reviewHeader {
+  display: flex;
+  /* justify-content: space-between; -- Handled by gap + margin auto on date */
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 10px;
+}
+.reviewUser {
+  font-weight: 600; /* Less bold */
+  color: var(--text-color-dark);
+  font-size: 0.95em;
+}
+.reviewStars {
+  font-size: 0.9em; /* Align with user font size */
+  letter-spacing: 0.5px;
+  /* color handled by .starFull, .starEmpty */
+}
+.reviewComment {
+  font-size: 0.9em;
+  line-height: 1.65;
+  color: var(--text-color); /* Standard text for comment */
+  margin-bottom: 8px;
+}
+.reviewDate {
+  font-size: 0.75em;
+  color: #aaa;
+  margin-left: auto; /* Push date to the right */
+}
+.noReviewsMessage {
+  font-size: 0.95em;
+  color: var(--text-color-soft);
+  padding: 20px 0;
+  text-align: center;
+}
+
+
+.notFound { /* ... existing styles ... */ }
+.notFoundContainer { /* ... existing styles ... */
+    opacity: 0; 
+    animation-name: fadeInTextEffect; /* Use consistent fade-in for not found */
+    animation-duration: 0.7s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
 
 @media (max-width: 850px) {
   .productDetailLayout {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 25px;
   }
   .productImageColumn {
     position: static;
-    max-width: 450px;
-    margin: 0 auto;
+    max-width: 100%; /* Allow full width on mobile stack */
+    margin: 0 auto 20px auto; /* Center and add bottom margin */
   }
-  .productName { font-size: 2em; }
-  .productPrice { font-size: 1.6em; }
-  .addToCartButton { width: 100%; }
+  .productImage {
+    max-width: 400px; /* Limit image width on mobile */
+    margin:0 auto; /* Center if column is wider */
+  }
+  .productName { font-size: 1.9em; }
+  .currentPrice { font-size: 1.7em; }
+  .sectionTitleFullWidth { font-size: 1.3em; }
+}
+@media (max-width: 480px) {
+  .actionButtons {
+    flex-direction: column;
+  }
+  .addToCartButton, .buyNowButton {
+    width: 100%;
+    font-size: 0.9em;
+    padding: 12px 15px;
+  }
+  .productName { font-size: 1.7em; }
+  .currentPrice { font-size: 1.6em; }
+  .starsDisplay, .ratingValue, .numReviewsLink { font-size: 0.85em; }
+  .quantityLabel { font-size: 0.9em; }
 }
