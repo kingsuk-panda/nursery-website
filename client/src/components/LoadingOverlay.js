@@ -1,18 +1,22 @@
 import React from 'react';
 import styles from './LoadingOverlay.module.css';
 
-// Simple CSS spinner component nested inside
+// Updated Spinner component for pulsing dots
 function Spinner() {
-  return <div className={styles.spinner}></div>;
+  return (
+    <div className={styles.spinnerContainer}> {/* Renamed for clarity, now a container for dots */}
+      <div className={`${styles.dot} ${styles.dot1}`}></div>
+      <div className={`${styles.dot} ${styles.dot2}`}></div>
+      <div className={`${styles.dot} ${styles.dot3}`}></div>
+    </div>
+  );
 }
 
 function LoadingOverlay({ isActive }) {
-  // Render nothing if not active
   if (!isActive) {
-    return null; 
+    return null;
   }
 
-  // Otherwise, render the overlay with the spinner
   return (
     <div className={styles.overlay} aria-live="polite" aria-busy="true">
       <Spinner />

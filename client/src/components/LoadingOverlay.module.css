@@ -1,28 +1,15 @@
 /* client/src/components/LoadingOverlay.module.css */
 
 .overlay {
-  position: fixed; /* Cover the entire viewport */
-  inset: 0; /* Equivalent to top: 0; left: 0; right: 0; bottom: 0; */
-  
-  /* Background: Use your page background color with some opacity, or a neutral/dark overlay */
-  /* Example using your page color #f5eee7 -> rgb(245, 238, 231) */
+  position: fixed;
+  inset: 0;
   background-color: rgba(245, 238, 231, 0.6); 
-  /* Or a slightly darker overlay: */
-  /* background-color: rgba(50, 50, 50, 0.4); */
-
-  /* Blur effect on content behind */
-  -webkit-backdrop-filter: blur(5px); /* Adjust blur amount (e.g., 3px, 5px, 8px) */
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
-
-  /* Center the spinner */
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Ensure it's above other content, including navbar (z-index 1000) */
   z-index: 1500; 
-
-  /* Optional: Add a subtle fade-in */
   opacity: 0;
   animation: fadeInOverlay 0.3s ease-out forwards;
 }
@@ -31,19 +18,52 @@
   to { opacity: 1; }
 }
 
-
-/* === Aesthetic Loading Circle (Spinner) === */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* === New Aesthetic Pulsing Dots Spinner === */
+.spinnerContainer {
+  display: flex; /* Align dots in a row */
+  align-items: center;
+  justify-content: center;
 }
 
-.spinner {
-  width: 50px;  /* Size of the spinner */
-  height: 50px;
-  border: 6px solid rgba(0, 0, 0, 0.1); /* Light grey track */
-  /* Spinner color - using your primary green */
-  border-top-color: var(--primary-color); 
-  border-radius: 50%;
-  animation: spin 1s linear infinite; /* Speed of rotation */
+.dot {
+  width: 12px;  /* Size of each dot */
+  height: 12px;
+  margin: 0 5px; /* Space between dots */
+  background-color: var(--primary-color); /* Use your theme's primary color */
+  border-radius: 50%; /* Makes them circular */
+  
+  /* Apply the pulsing animation */
+  animation: pulseDot 1.4s infinite ease-in-out both;
 }
+
+/* Stagger the animation for each dot */
+.dot1 {
+  animation-delay: -0.32s;
+}
+
+.dot2 {
+  animation-delay: -0.16s;
+}
+
+.dot3 {
+  /* No delay needed for the third dot relative to the animation cycle */
+  /* animation-delay: 0s; */
+}
+
+/* Keyframes for the pulsing dot animation */
+@keyframes pulseDot {
+  0%, 80%, 100% {
+    transform: scale(0.6); /* Smaller size */
+    opacity: 0.7;
+  }
+  40% {
+    transform: scale(1.0); /* Larger size */
+    opacity: 1;
+  }
+}
+
+/* Remove or comment out old spinner styles if they were named .spinner */
+/*
+@keyframes spin { ... }
+.spinner { ... }
+*/
