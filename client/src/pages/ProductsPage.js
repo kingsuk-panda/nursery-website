@@ -12,10 +12,10 @@ import potsVideo from '../assets/videos/category-pots.mp4';
 import careVideo from '../assets/videos/category-plant-care.mp4';
 
 const categories = [
-  { name: 'Plants', path: '/products/plants', videoUrl: plantsVideo }, 
-  { name: 'Seeds', path: '/products/seeds', videoUrl: seedsVideo },
-  { name: 'Pots', path: '/products/pots', videoUrl: potsVideo },
-  { name: 'Plant Care', path: '/products/plant-care', videoUrl: careVideo },
+  { name: 'plants', path: '/products/plants', videoUrl: plantsVideo }, 
+  { name: 'seeds', path: '/products/seeds', videoUrl: seedsVideo },
+  { name: 'pots', path: '/products/pots', videoUrl: potsVideo },
+  { name: 'plant care', path: '/products/plant-care', videoUrl: careVideo }, // "plant care" as two words lowercase
 ];
 
 function ProductsPage() {
