@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // Import useRef
 import { useParams, Link } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import styles from './CategoryProductsPage.module.css';
 import ProductCard from '../components/ProductCard';
-import LoadingIndicator from '../components/LoadingIndicator'; // Import the new component
+import LoadingIndicator from '../components/LoadingIndicator'; 
 
-// MOCK DATA (ensure image paths are correct for your setup)
+// MOCK DATA (ensure image paths are correct)
 const allProducts = [
   { id: 'p1', category: 'plants', name: 'Monstera Deliciosa', price: 1200, imageUrl: '/images/monstera.jpg' },
   { id: 'p2', category: 'plants', name: 'Snake Plant', price: 800, imageUrl: '/images/snake-plant.jpg' },
@@ -23,65 +24,77 @@ function CategoryProductsPage() {
   const { categoryName } = useParams(); 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
-  // State to trigger content fade-in animation *after* loading is false
   const [showContent, setShowContent] = useState(false); 
+  
+  // 👇 Create a ref for the loading indicator's DOM node
+  const loadingIndicatorRef = useRef(null); 
 
   useEffect(() => {
     setIsLoading(true);
-    setShowContent(false); // Reset content visibility on category change
+    setShowContent(false); 
     const startTime = Date.now();
 
     // --- Simulate fetching products ---
-    // Replace this section with your actual API call later
     const filteredProducts = allProducts.filter(
       (product) => product.category.toLowerCase() === categoryName.toLowerCase()
     );
-    const fetchDataDuration = 500; // Simulate 0.5 second fetch time
+    const fetchDataDuration = 500; 
     // --- End Simulation ---
     
-    const minLoadingTime = 2000; // Ensure loading shows for at least 2 seconds
+    const minLoadingTime = 2000; 
 
-    setTimeout(() => { // This represents the fetch completing
+    const finishLoading = () => {
+      setProducts(filteredProducts); 
+      setIsLoading(false); 
+    };
+
+    setTimeout(() => { // Simulate fetch completing
         const endTime = Date.now();
         const elapsedTime = endTime - startTime;
         const remainingTime = minLoadingTime - elapsedTime;
 
-        const finishLoading = () => {
-            setProducts(filteredProducts);
-            setIsLoading(false);
-            // Use a short timeout to allow state to update and LoadingIndicator to unmount
-            // before triggering the content fade-in animation
-            setTimeout(() => setShowContent(true), 50); 
-        };
-
         if (remainingTime > 0) {
-            // If fetch finished faster than 2s, wait the remainder
             setTimeout(finishLoading, remainingTime);
         } else {
-            // If fetch took 2s or longer, finish immediately
             finishLoading();
         }
-    }, fetchDataDuration); // This outer timeout simulates the fetch delay itself
+    }, fetchDataDuration);
 
-  }, [categoryName]); // Re-run effect when categoryName changes
+  }, [categoryName]);
 
   const pageTitle = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
   return (
     <div className={styles.categoryProductsContainer}>
-        {isLoading ? (
-            // Show the animated loading indicator
-            <LoadingIndicator text="Loading products..." />
-        ) : (
-            // Show the content with fade-in animation controlled by showContent state
-            <div className={`${styles.contentWrapper} ${showContent ? styles.contentFadeIn : styles.contentHidden}`}>
+        <CSSTransition
+          // 👇 Pass the ref via nodeRef
+          nodeRef={loadingIndicatorRef} 
+          in={isLoading} 
+          timeout={500} // Exit animation duration
+          classNames={{ // Use the CSS Module class names directly if preferred
+             exit: styles.loadingIndicatorExit,
+             exitActive: styles.loadingIndicatorExitActive,
+             // We are not animating enter here, but if needed:
+             // enter: styles.loadingIndicatorEnter,
+             // enterActive: styles.loadingIndicatorEnterActive,
+          }}
+          unmountOnExit 
+          onExited={() => setShowContent(true)} 
+        >
+          {/* 👇 Pass the ref down to the LoadingIndicator component */}
+          <LoadingIndicator ref={loadingIndicatorRef} text="Loading products..." />
+        </CSSTransition>
+
+        {showContent && (
+            // Content wrapper - applies fade-in animation via CSS module class
+            <div className={`${styles.contentWrapper} ${styles.contentFadeIn}`}> 
                 <nav aria-label="breadcrumb" className={styles.breadcrumbs}>
                     <Link to="/products">Categories</Link> <span>&gt;</span> {pageTitle}
                 </nav>
                 <h1 className={styles.pageTitle}>{pageTitle}</h1>
                 {products.length > 0 ? (
-                    // Apply specific fade-in for grid (can have slight delay)
-                    <div className={`${styles.productsGrid} ${showContent ? styles.gridFadeIn : ''}`}>
+                    // Grid - animation applied by parent or specifically here
+                    <div className={styles.productsGrid}> 
                         {products.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}

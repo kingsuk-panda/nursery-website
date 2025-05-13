@@ -3,25 +3,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Ensure it takes up space while loading */
   min-height: 300px; 
   width: 100%;
-  padding: 40px 0; /* Add some padding */
+  padding: 40px 0;
+  box-sizing: border-box; /* Ensure padding doesn't add to size causing overflow */
 }
 
 .loadingText {
   font-size: 1.8em;
-  font-family: 'Open Sans', sans-serif; /* Or your preferred font */
-  color: var(--text-color); /* Use text color variable */
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
   text-align: center;
   font-weight: 600;
 }
 
-/* Animation for each letter */
 @keyframes fadeInLetter {
   0% {
     opacity: 0;
-    transform: translateY(8px) scale(0.95);
+    transform: translateY(10px) scale(0.95);
   }
   100% {
     opacity: 1;
@@ -30,11 +29,12 @@
 }
 
 .char {
-  display: inline-block; /* Apply animation and transform */
-  opacity: 0; /* Start hidden */
+  display: inline-block;
+  opacity: 0;
   animation-name: fadeInLetter;
-  animation-duration: 0.6s; /* Fade-in duration for each letter */
-  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother ease-out */
-  animation-fill-mode: forwards; /* Keep final state (visible) */
-  /* animation-delay is set via inline style */
+  /* 👇 Faster letter animation duration 👇 */
+  animation-duration: 0.4s; 
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  /* animation-delay is set inline */
 }

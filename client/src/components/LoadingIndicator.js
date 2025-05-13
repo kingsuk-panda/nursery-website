@@ -1,27 +1,26 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, forwardRef } from 'react'; // Import forwardRef
 import styles from './LoadingIndicator.module.css';
 
-function LoadingIndicator({ text = "Loading..." }) {
-  // Split the text into characters. useMemo prevents re-splitting on every render.
+// Wrap the component definition with forwardRef
+const LoadingIndicator = forwardRef(({ text = "Loading..." }, ref) => {
   const characters = useMemo(() => text.split(''), [text]);
 
   return (
-    // Container to center the loading text
-    <div className={styles.loadingContainer}>
+    // Attach the forwarded ref to the root div element
+    <div className={styles.loadingContainer} ref={ref}> 
       <span className={styles.loadingText}>
         {characters.map((char, index) => (
           <span 
-            key={`${char}-${index}`} // More stable key
+            key={`${char}-${index}`}
             className={styles.char}
-            style={{ animationDelay: `${index * 0.08}s` }} // Stagger delay for each letter
+            style={{ animationDelay: `${index * 0.04}s` }} 
           >
-            {/* Use a non-breaking space for actual spaces to maintain layout */}
-            {char === ' ' ? '\u00A0' : char} 
+            {char === ' ' ? '\u00A0' : char}
           </span>
         ))}
       </span>
     </div>
   );
-}
+}); // Note the closing parenthesis for forwardRef
 
 export default LoadingIndicator;
