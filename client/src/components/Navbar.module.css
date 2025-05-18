@@ -63,7 +63,6 @@
   margin-left: auto; 
 }
 
-/* 👇 Base styles for all NavLink, Link, and the dropdown TRIGGER button 👇 */
 .a { 
   text-decoration: none;
   padding: 10px 15px; 
@@ -71,8 +70,6 @@
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.2s ease; 
   display: block; 
   font-weight: 500;
-  /* VVV Removed ineffective color property VVV */
-  /* color property is set by the themes below (.navThemeLightText/.navThemeDarkText) */
   text-shadow: 0 1px 2px rgba(0,0,0,0.3); 
 }
 
@@ -81,7 +78,6 @@
   opacity: 0.8;
 }
 
-/* Style for the Logout button (applied via .navButtonLink class) */
 .navButtonLink {
   background: none;
   border: none;
@@ -100,20 +96,17 @@
    text-decoration: none;
 }
 
-
-/* Style for Sign Up link when styled as a button (applied via .navLinkButton class) */
 .navLinkButton {
   background-color: var(--primary-color);
   color: white !important;
   text-shadow: none !important;
+  text-transform: uppercase; /* Added this line if you want button text uppercase */
 }
 .navLinkButton:hover {
   background-color: var(--secondary-color);
   text-decoration: none;
 }
 
-
-/* Theme for DARK Backgrounds (e.g., Hero Image) -> Light Milky Blur Tint, Light Text */
 .navThemeLightText {
   background-color: rgba(240, 240, 240, 0.25);
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -125,8 +118,6 @@
 .navThemeLightText .a:hover { background-color: rgba(255, 255, 255, 0.15); }
 .navThemeLightText .active { background-color: rgba(255, 255, 255, 0.25); } 
 
-
-/* Theme for LIGHT Backgrounds (e.g., Page Content) -> Darker Blur Tint, Light Text */
 .navThemeDarkText {
   background-color: rgba(50, 50, 50, 0.3);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -138,7 +129,6 @@
 .navThemeDarkText .a:hover { background-color: rgba(255, 255, 255, 0.1); }
 .navThemeDarkText .active { background-color: rgba(255, 255, 255, 0.15); }
 
-
 /* === Dropdown Menu Styles === */
 .dropdownContainer {
   position: relative;
@@ -147,10 +137,7 @@
   align-items: center;
 }
 
-/* 👇 Style for the clickable text/button that opens the dropdown 👇 */
 .dropdownTrigger {
-  /* Inherits base styles from .a (padding, border-radius, color, hover, active effects, text-shadow, transitions) */
-  /* This class primarily resets default button styles and ensures font inheritance */
   background: none;
   border: none;
   margin: 0;
@@ -158,30 +145,50 @@
   line-height: normal;
   text-align: left;
   width: auto;
-  /* VVV Explicitly inherit font properties VVV */
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
 }
 
-
+/* 👇 Styles for the Dropdown Menu (including blur and animation) 👇 */
 .dropdownMenu {
   position: absolute;
   top: 100%; 
   right: 0; 
-  background-color: white;
-  border: 1px solid #ddd;
+  
+  /* === Blurry Effect === */
+  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+  -webkit-backdrop-filter: blur(10px); /* Apply webkit backdrop filter */
+  backdrop-filter: blur(10px); /* Apply backdrop filter */
+  
+  border: 1px solid rgba(221, 221, 221, 0.6); /* Slightly transparent border */
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Stronger shadow for depth */
+  
   min-width: 160px; 
   z-index: 1001; 
   display: flex;
   flex-direction: column;
   overflow: hidden; 
   margin-top: 8px;
+  
+  /* === Animation === */
+  animation: fadeInScaleUp 0.3s ease-out forwards; /* Apply entry animation */
 }
 
-/* Style for individual items within the dropdown (both NavLink and button) */
+/* 👇 Define the animation keyframes 👇 */
+@keyframes fadeInScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(-10px); /* Start slightly smaller and higher */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0); /* End at full size and final position */
+  }
+}
+
+
 .dropdownItem,
 .dropdownItemLogout {
   padding: 10px 15px;
@@ -192,23 +199,20 @@
   display: block;
   text-align: left;
   cursor: pointer;
-  text-shadow: none; /* Ensure no text-shadow in dropdown items */
+  text-shadow: none; 
 }
 
-/* Style for NavLink items in dropdown when they are the active page */
 .dropdownItem.dropdownItemActive {
-  background-color: #f0f0f0;
+  background-color: rgba(0,0,0,0.05); /* Slightly darker background for active item */
   font-weight: 600;
 }
 
-/* Hover effect for dropdown items */
 .dropdownItem:hover,
 .dropdownItemLogout:hover {
-  background-color: #f5f5f5;
-  color: var(--primary-color);
+  background-color: rgba(0,0,0,0.08); /* Slightly darker grey on hover */
+  color: var(--primary-color); 
 }
 
-/* Style specifically for the Logout button in the dropdown */
 .dropdownItemLogout {
     background: none; 
     border: none; 
