@@ -1,47 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom'; // Added Link for logo consistency
 import styles from './Navbar.module.css';
-
-// 👇 Import your logo image (make sure path is correct)
-import nurseryLogo from '../assets/nursery-logo.png'; 
+import nurseryLogo from '../assets/nursery-logo.png'; // Make sure this path is correct: client/src/assets/nursery-logo.png
+import { useAuth } from '../context/AuthContext'; // Import useAuth
 
 function Navbar() {
   const location = useLocation();
+  const { isAuthenticated, currentUser, logout } = useAuth(); // Use our AuthContext
+
   const getInitialTheme = () => (location.pathname === '/' ? styles.navThemeLightText : styles.navThemeDarkText);
   
   const [navTheme, setNavTheme] = useState(getInitialTheme);
-  // 👇 State to track if we've scrolled past the hero area
-  const [isScrolledPastHero, setIsScrolledPastHero] = useState(false); 
+  const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);  
   const navRef = useRef(null);
 
   useEffect(() => {
-    // Set initial theme/scroll state based on path
     const initialPath = location.pathname;
-    setNavTheme(initialPath === '/' ? styles.navThemeLightText : styles.navThemeDarkText);
-    // Assume not scrolled past hero initially on load or route change
-    setIsScrolledPastHero(initialPath === '/' && window.scrollY > 50); // Initial check with small threshold
+    const onHomePage = initialPath === '/';
+    
+    setNavTheme(onHomePage ? styles.navThemeLightText : styles.navThemeDarkText);
+    setIsScrolledPastHero(!onHomePage || window.scrollY > 50); // Scrolled if not home, or past threshold on home
 
     const handleScroll = () => {
-      const isHomePage = location.pathname === '/'; // Check current location inside handler too
+      const isHomePage = location.pathname === '/'; 
       const navbarHeight = navRef.current ? navRef.current.offsetHeight : 70;
-      
-      // Threshold should be when the top of the page scrolls significantly, 
-      // maybe half the hero height or a fixed value like 100px. Let's use 100px.
       const scrollThreshold = 100; 
-
       let currentScrollState = window.scrollY > scrollThreshold;
       
-      // Only show navbar logo if scrolled on homepage, or always on other pages?
-      // Let's show it ONLY when scrolled on homepage for the "move" effect.
-      // On other pages, maybe it's always visible? Let's try always visible on other pages.
       if (isHomePage) {
-         setIsScrolledPastHero(currentScrollState);
+        setIsScrolledPastHero(currentScrollState);
       } else {
-         setIsScrolledPastHero(true); // Always show logo on other pages
+        setIsScrolledPastHero(true); // Always show logo etc. on other pages
       }
 
-      // --- Theme switching logic (remains mostly the same) ---
-      const themeScrollThreshold = window.innerHeight - navbarHeight - 50; 
+      const themeScrollThreshold = window.innerHeight - navbarHeight - 50;  
       if (isHomePage) {
         if (window.scrollY > themeScrollThreshold) {
           setNavTheme(styles.navThemeDarkText);
@@ -49,38 +41,39 @@ function Navbar() {
           setNavTheme(styles.navThemeLightText);
         }
       } else {
-        setNavTheme(styles.navThemeDarkText); // Dark text theme for other pages
+        setNavTheme(styles.navThemeDarkText);
       }
-      // --- End Theme switching logic ---
     };
 
-    handleScroll(); // Call once to set initial states correctly
+    handleScroll(); // Initial call
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [location.pathname]); // Re-run effect if location (page) changes
+  }, [location.pathname]);
 
   return (
     <nav ref={navRef} className={`${styles.nav} ${navTheme}`}>
-      {/* Optional Wrapper for max-width content alignment */}
-      <div className={styles.navContentWrapper}> 
-        {/* 👇 Navbar Logo - Conditionally visible */}
-        <img 
-          src={nurseryLogo} 
-          alt="Evergreen Pushpanjali Nursery Logo" 
-          // Apply base style + visibility style based on state
-          className={`${styles.navbarLogo} ${isScrolledPastHero ? styles.navbarLogoVisible : ''}`} 
-        />
+      <div className={styles.navContentWrapper}>  
+        {/* Use Link for the logo to navigate to home */}
+        <Link to="/" className={`${styles.navbarLogoLink} ${isScrolledPastHero ? styles.navbarLogoVisible : ''}`}>
+          <img  
+            src={nurseryLogo}  
+            alt="Evergreen Pushpanjali Nursery Logo"  
+            className={styles.navbarLogoImage} // Dedicated class for image if needed
+          />
+          {/* Optionally, add span for text logo next to image if design requires */}
+          {/* <span className={styles.navbarLogoText}>Evergreen</span> */}
+        </Link>
 
         <ul className={styles.ul}>
-          {/* Link Items remain the same */}
           <li className={styles.li}>
             <NavLink
               to="/"
               className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
               onClick={() => { if (location.pathname === '/') window.scrollTo(0,0);}}
+              end // Added 'end' for more precise matching of home route
             >
               Home
             </NavLink>
@@ -95,21 +88,72 @@ function Navbar() {
           </li>
           <li className={styles.li}>
             <NavLink
-              to="/about"
+              to="/about" // Assuming /about route exists
               className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
             >
               About
             </NavLink>
           </li>
-          <li className={`${styles.li} ${styles.navItemPushRight}`}> 
-            {localStorage.getItem('user') ? (
-              <NavLink to="/account" className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}>Account</NavLink>
-            ) : (
-              <NavLink to="/login" className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}>Login / Sign Up</NavLink>
-            )}
+          {/* Add other common links like Services, Contact if they exist */}
+          {/*
+          <li className={styles.li}>
+            <NavLink to="/services" className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}>Services</NavLink>
           </li>
+          <li className={styles.li}>
+            <NavLink to="/contact" className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}>Contact</NavLink>
+          </li>
+          */}
+
+          {/* Authentication Links - Updated */}
+          {isAuthenticated ? (
+            <>
+              {currentUser && currentUser.role === 'seller' && (
+                <li className={styles.li}>
+                  <NavLink 
+                    to="/seller/dashboard" // Ensure this route will exist
+                    className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+              )}
+              <li className={styles.li}>
+                <NavLink 
+                  to="/account" // Your existing account route
+                  className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+                >
+                  {/* Display user's name if available, otherwise "Account" */}
+                  {currentUser?.name ? `Hi, ${currentUser.name.split(' ')[0]}` : 'Account'}
+                </NavLink>
+              </li>
+              <li className={styles.li}>
+                <button onClick={logout} className={`${styles.a} ${styles.navButtonLink}`}>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className={`${styles.li} ${styles.navItemPushRight}`}> 
+                <NavLink 
+                  to="/login" 
+                  className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+                >
+                  Login
+                </NavLink>
+              </li>
+              <li className={styles.li}>
+                <NavLink 
+                  to="/signup" 
+                  className={({ isActive }) => isActive ? `${styles.a} ${styles.active} ${styles.navLinkButton}` : `${styles.a} ${styles.navLinkButton}`} // Style as a button
+                >
+                  Sign Up
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
-      </div> 
+      </div>  
     </nav>
   );
 }

@@ -1,8 +1,7 @@
 /* client/src/components/Navbar.module.css */
 
 .nav {
-  /* Keep position, z-index, width, transitions, blur */
-  padding: 10px 20px; /* Adjusted padding slightly */
+  padding: 10px 20px;
   position: fixed;
   top: 0;
   left: 0;
@@ -13,87 +12,143 @@
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 
-  /* Make nav a flex container to align logo and ul */
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the content wrapper */
+  justify-content: center;
 }
 
-/* Added wrapper for max-width and flex layout */
 .navContentWrapper {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 1200px; /* Your standard content width */
-  /* Removed gap here, add margin to logo instead */
+  max-width: 1200px;
+  /* gap is now handled by margin-right on the logo link */
 }
 
-/* New styles for the logo inside the navbar */
-.navbarLogo {
-  height: 40px; /* Adjust size */
-  width: auto;
-  display: block;
+/* 👇 New styles for the logo link (wrapper around the image) 👇 */
+.navbarLogoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none; /* Remove underline */
+  /* --- Visibility and Animation --- */
   opacity: 0; /* Initially hidden */
   transform: translateY(-10px); /* Optional: start slightly up */
   transition: opacity 0.4s ease, transform 0.4s ease;
+  /* ------------------------------ */
   margin-right: 25px; /* Space between logo and nav links */
 }
 
-.navbarLogoVisible {
+/* 👇 Style for the logo link when it should be visible (class added by Navbar.js state) 👇 */
+.navbarLogoLink.navbarLogoVisible { 
   opacity: 1; /* Fade in */
   transform: translateY(0); /* Move to final position */
 }
 
+/* 👇 New style for the logo image itself 👇 */
+.navbarLogoImage {
+  height: 40px; /* Adjust size */
+  width: auto;
+  display: block;
+}
+/* If you have text next to the logo image: */
+/* .navbarLogoText { ... } */
+
+
 .ul {
   list-style: none;
-  margin: 0; /* Reset margin */
+  margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
-  gap: 20px; /* Gap between Home, Products, About */
-  flex-grow: 1; /* Allow ul to grow and push the right item */
+  gap: 20px; /* Gap between primary links */
+  flex-grow: 1;
 }
 
 .li {
   margin: 0;
+  /* If you need specific spacing between the last primary link and auth links: */
+  /* e.g., &:last-child { margin-left: auto; } */
 }
 
+/* Style for the list item that pushes subsequent items to the right */
 .navItemPushRight {
-  margin-left: auto; /* Pushes login to the right */
+  margin-left: auto; /* Pushes this item and any items after it to the right */
 }
 
-.a { /* Base styles for all links */
+.a { /* Base styles for all NavLink and Link elements */
   text-decoration: none;
   padding: 10px 15px;
   border-radius: 6px;
-  /* Ensure transform is included in the transition */
-  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.2s ease; 
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
   display: block;
   font-weight: 500;
-  color: var(--nav-text-color);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  /* color property is set by the theme (.navThemeLightText/.navThemeDarkText) */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Dark shadow for light text theme */
 }
 
-/* 👇 New :active state for click animation on nav links 👇 */
 .a:active {
-  transform: scale(0.95); /* Scale down slightly on click */
-  opacity: 0.8; /* Optional: slightly dim the link on press */
+  transform: scale(0.95);
+  opacity: 0.8;
 }
+
+/* 👇 New style for the Logout button (applied via .navButtonLink class) 👇 */
+.navButtonLink {
+  /* Reset button's default styles */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px; /* Match .a padding */
+  border-radius: 6px; /* Match .a border-radius */
+  font: inherit; /* Inherit font styles from its parent/base (.a) */
+  text-transform: uppercase; /* Match .a text-transform if applicable */
+  letter-spacing: 0.5px; /* Match .a letter-spacing if applicable */
+  /* Color and hover handled by themes on the .a class */
+  /* text-shadow: none; /* If you want to remove the text-shadow on buttons */
+}
+.navButtonLink:hover {
+   /* Inherits hover styles from .a */
+   text-decoration: none; /* Ensure no underline on hover if .a has it */
+}
+
+
+/* 👇 New style for the Sign Up link when styled as a button (applied via .navLinkButton class) 👇 */
+.navLinkButton {
+  /* Make it look like a button */
+  background-color: var(--primary-color); /* Your theme green */
+  color: white !important; /* Override theme color for button text */
+  text-shadow: none !important; /* Remove text shadow for button text */
+}
+.navLinkButton:hover {
+  background-color: var(--secondary-color); /* Darker green on hover */
+  text-decoration: none; /* Ensure no underline */
+}
+
 
 /* Theme for DARK Backgrounds (e.g., Hero Image) -> Light Milky Blur Tint, Light Text */
 .navThemeLightText {
   background-color: rgba(240, 240, 240, 0.25);
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-.navThemeLightText .a { color: #FFFFFF; }
+.navThemeLightText .a { 
+  color: #FFFFFF; /* White text */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Dark shadow for readability on complex dark bg */
+}
 .navThemeLightText .a:hover { background-color: rgba(255, 255, 255, 0.15); }
-.navThemeLightText .active { background-color: rgba(255, 255, 255, 0.25); } /* This is NavLink's active page style */
+.navThemeLightText .active { background-color: rgba(255, 255, 255, 0.25); } 
 
 /* Theme for LIGHT Backgrounds (e.g., Page Content) -> Darker Blur Tint, Light Text */
 .navThemeDarkText {
-  background-color: rgba(50, 50, 50, 0.3);
+  background-color: rgba(50, 50, 50, 0.3); /* Darker blur tint */
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-.navThemeDarkText .a { color: #F5F5F5; }
+.navThemeDarkText .a { 
+  color: #F5F5F5; /* Very light grey text */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Still use dark shadow for consistency/legibility */
+}
 .navThemeDarkText .a:hover { background-color: rgba(255, 255, 255, 0.1); }
-.navThemeDarkText .active { background-color: rgba(255, 255, 255, 0.15); } /* This is NavLink's active page style */
+.navThemeDarkText .active { background-color: rgba(255, 255, 255, 0.15); }
+
+/* Note: The theme colors (.navThemeLightText .a and .navThemeDarkText .a) determine the primary
+         text color of links. The .navLinkButton specifically overrides the color to white.
+         The .navButtonLink inherits the color from the theme via the .a class.
+*/
