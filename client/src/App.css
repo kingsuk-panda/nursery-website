@@ -68,3 +68,32 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 40px; /* Space between hero bottom and this content */
   padding-bottom: 20px;
 }
+
+/* Add these or similar styles for the main tag layout */
+.standardPageMain {
+  /* This class is for pages that get the standard layout.
+     The .page-content class you have provides navbar padding.
+     If individual pages are wrapped in <div className="container page-content">,
+     this class might just need flex-grow: 1 if App is a flex container.
+     For simplicity, let's assume your existing .page-content handles padding.
+  */
+  flex-grow: 1; /* If .app is display:flex; flex-direction:column; */
+}
+
+.authPageMain {
+  flex-grow: 1;
+  display: flex; /* To allow centering of the auth form card */
+  justify-content: center;
+  align-items: center;
+  padding-top: var(--navbar-height); /* Still push below navbar if navbar visible */
+  /* If navbar is truly hidden on auth pages by Navbar's internal logic, then padding-top: 0; */
+}
+
+/* Ensure your .app class (if you add one to the root div in App.js, which I removed for now) looks like: */
+/*
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+*/

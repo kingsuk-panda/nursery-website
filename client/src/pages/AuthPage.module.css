@@ -1,0 +1,171 @@
+/* client/src/pages/AuthPage.module.css */
+
+/* Container for the entire auth page content */
+.authPageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to start, useful if card is shorter than screen */
+  min-height: calc(100vh - var(--navbar-height, 70px)); /* Adjust based on your minimum page content height */
+  padding: 40px 20px;
+  background-color: var(--background-color); /* Your theme background */
+}
+
+/* Card-like container for the form */
+.authFormCard {
+  background-color: #fff;
+  padding: 30px 35px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px; /* Increased max width slightly */
+  box-sizing: border-box; /* Include padding in width */
+}
+
+/* Title for the form (Login, Create Account) */
+.authTitle {
+  font-family: 'GFS Didot', serif;
+  font-size: 2em;
+  color: var(--text-color-dark);
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* The form itself */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* Space between form groups */
+}
+
+/* Wrapper for each label/input pair */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-size: 0.9em;
+  color: var(--text-color-soft);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+/* Styles for text, email, password inputs */
+.formGroup input[type="text"],
+.formGroup input[type="email"],
+.formGroup input[type="password"] {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: 'Open Sans', sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%; /* Make inputs fill their container */
+  box-sizing: border-box; /* Include padding/border in width */
+}
+
+.formGroup input[type="text"]:focus,
+.formGroup input[type="email"]:focus,
+.formGroup input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary-color); /* Your theme green */
+  box-shadow: 0 0 0 3px var(--primary-color-transparent-light); /* Subtle glow */
+}
+
+/* Wrapper for radio buttons */
+.roleSelector {
+  display: flex;
+  gap: 20px; /* Space between radio options */
+  margin-top: 5px;
+}
+.roleOption { /* Style for each radio button label */
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Space between radio and text */
+  font-size: 0.95em;
+  color: var(--text-color);
+  cursor: pointer;
+}
+.roleSelector input[type="radio"] {
+  accent-color: var(--primary-color); /* Style radio button color */
+  transform: scale(1.1); /* Slightly larger radio button */
+}
+
+
+/* Style for the submit button */
+.authButton {
+  background-color: var(--primary-color); /* Your theme green */
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 1.05em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: 100%; /* Make button full width */
+}
+
+.authButton:hover:not(:disabled) {
+  background-color: var(--secondary-color); /* Darker green */
+  transform: translateY(-1px);
+}
+.authButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+.authButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Style for error messages */
+.errorMessage {
+  color: #c0392b; /* Darker red for text */
+  background-color: #ffebee; /* Very light red background */
+  border: 1px solid #e74c3c; /* Red border */
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Style for the link to the other auth page */
+.authRedirect {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: var(--text-color-soft);
+}
+
+.authRedirect a {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+.authRedirect a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .authFormCard {
+    padding: 25px 20px; /* Reduce padding on smaller screens */
+  }
+  .authTitle {
+    font-size: 1.8em;
+  }
+  .formGroup input[type="text"],
+  .formGroup input[type="email"],
+  .formGroup input[type="password"] {
+    padding: 10px 12px;
+  }
+  .authButton {
+    padding: 10px;
+    font-size: 1em;
+  }
+}

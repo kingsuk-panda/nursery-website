@@ -1,11 +1,14 @@
 // client/src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import ProductsPage from './pages/ProductsPage'; // Shows category cards
-import CategoryProductsPage from './pages/CategoryProductsPage'; // ADDED: Shows products for a specific category
-import ProductPage from './pages/ProductPage';   // For individual product details later
-import Login from './pages/Login';
+// BrowserRouter as Router is REMOVED from here (moved to index.js)
+import { Route, Routes, useLocation } from 'react-router-dom'; 
+import Home from './pages/Home'; // Corrected import based on your filename
+import ProductsPage from './pages/ProductsPage';
+import CategoryProductsPage from './pages/CategoryProductsPage';
+import ProductPage from './pages/ProductPage';
+// VVV CORRECTED IMPORT NAME AND PATH FOR YOUR EXISTING LOGIN FILE VVV
+import Login from './pages/Login'; // Import Login component from Login.js
+import SignupPage from './pages/SignupPage'; 
 import Account from './pages/Account';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -14,38 +17,38 @@ import Navbar from './components/Navbar';
 import './App.css';
 
 function App() {
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductsPage />} />
-        
-        {/* 👇 ADDED: Dynamic route for displaying products of a specific category 👇 */}
-        <Route path="/products/:categoryName" element={
-          // This page will handle its own layout including navbar spacing
-          <CategoryProductsPage /> 
-        } />
-        
-        {/* Route for individual product details - ensure it doesn't clash or order correctly.
-            If product IDs are unique and don't look like category names (e.g., 'plants'), this is okay.
-            A more specific path like /product/:productId might be safer later if needed.
-            For now, assuming categoryName will not be a product ID.
-        */}
-        <Route path="/product/:productId" element={ // Changed from /products/:productId to avoid conflict for now
-          <div className="container page-content">
-            <ProductPage />
-          </div>
-        } />
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
-        {/* Other page routes */}
-        <Route path="/login" element={<div className="container page-content"><Login /></div>} />
-        <Route path="/account" element={<div className="container page-content"><Account /></div>} />
-        <Route path="/cart" element={<div className="container page-content"><Cart /></div>} />
-        <Route path="/checkout" element={<div className="container page-content"><Checkout /></div>} />
-        <Route path="/about" element={<div className="container page-content"><About /></div>} />
-      </Routes>
-    </Router>
+  return (
+    <>
+      <Navbar />
+      <main className={isAuthPage ? "authPageMain" : "standardPageMain"}>
+        <Routes>
+          <Route path="/" element={<Home />} /> 
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:categoryName" element={<CategoryProductsPage />} />
+          
+          <Route path="/product/:productId" element={
+            <div className="container page-content">
+              <ProductPage />
+            </div>
+          } />
+
+          {/* VVV CORRECTED ROUTE ELEMENT TO USE YOUR IMPORTED COMPONENT VVV */}
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/signup" element={<SignupPage />} /> {/* This route uses the SignupPage component we'll create */}
+
+          {/* Other pages with standard wrapper */}
+          <Route path="/account" element={<div className="container page-content"><Account /></div>} />
+          <Route path="/cart" element={<div className="container page-content"><Cart /></div>} />
+          <Route path="/checkout" element={<div className="container page-content"><Checkout /></div>} />
+          <Route path="/about" element={<div className="container page-content"><About /></div>} />
+        </Routes>
+      </main>
+      {/* Add Footer here if you have one and want it on all pages except auth potentially */}
+      {/* {!isAuthPage && <Footer />} */}
+    </>
   );
 }
 
