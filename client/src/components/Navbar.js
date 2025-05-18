@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom'; // Added Link for logo consistency
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import nurseryLogo from '../assets/nursery-logo.png'; // Make sure this path is correct: client/src/assets/nursery-logo.png
-import { useAuth } from '../context/AuthContext'; // Import useAuth
+import nurseryLogo from '../assets/nursery-logo.png'; // Make sure this path is correct
+import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
   const location = useLocation();
-  const { isAuthenticated, currentUser, logout } = useAuth(); // Use our AuthContext
+  const { isAuthenticated, currentUser, logout } = useAuth();
 
   const getInitialTheme = () => (location.pathname === '/' ? styles.navThemeLightText : styles.navThemeDarkText);
   
@@ -14,12 +14,41 @@ function Navbar() {
   const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);  
   const navRef = useRef(null);
 
+  // 👇 State for the dropdown menu 👇
+  const [showDropdown, setShowDropdown] = useState(false);
+  // 👇 Ref for the dropdown container to detect outside clicks 👇
+  const dropdownRef = useRef(null);
+
+  // Effect to handle clicking outside the dropdown to close it
+  useEffect(() => {
+    function handleClickOutside(event) {
+      // If the click is outside the dropdown container, close the dropdown
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+    
+    // Add event listener when the dropdown is shown
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      // Clean up event listener when the dropdown is hidden
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown, dropdownRef]); // Re-run if showDropdown or dropdownRef changes
+
+
   useEffect(() => {
     const initialPath = location.pathname;
     const onHomePage = initialPath === '/';
     
     setNavTheme(onHomePage ? styles.navThemeLightText : styles.navThemeDarkText);
-    setIsScrolledPastHero(!onHomePage || window.scrollY > 50); // Scrolled if not home, or past threshold on home
+    setIsScrolledPastHero(!onHomePage || window.scrollY > 50);
 
     const handleScroll = () => {
       const isHomePage = location.pathname === '/'; 
@@ -30,7 +59,7 @@ function Navbar() {
       if (isHomePage) {
         setIsScrolledPastHero(currentScrollState);
       } else {
-        setIsScrolledPastHero(true); // Always show logo etc. on other pages
+        setIsScrolledPastHero(true);
       }
 
       const themeScrollThreshold = window.innerHeight - navbarHeight - 50;  
@@ -45,7 +74,7 @@ function Navbar() {
       }
     };
 
-    handleScroll(); // Initial call
+    handleScroll(); 
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
@@ -53,18 +82,33 @@ function Navbar() {
     };
   }, [location.pathname]);
 
+  // Function to toggle dropdown visibility
+  const handleDropdownToggle = () => {
+    setShowDropdown(prev => !prev);
+  };
+
+  // Function to handle logout click (closes dropdown before logging out)
+  const handleLogout = () => {
+    setShowDropdown(false); // Close dropdown
+    logout(); // Call the logout function from AuthContext
+  };
+
+  // Function to handle account link click (closes dropdown before navigating)
+  const handleAccountClick = () => {
+    setShowDropdown(false); // Close dropdown
+    // Navigating will be handled by the NavLink itself
+  };
+
+
   return (
     <nav ref={navRef} className={`${styles.nav} ${navTheme}`}>
       <div className={styles.navContentWrapper}>  
-        {/* Use Link for the logo to navigate to home */}
         <Link to="/" className={`${styles.navbarLogoLink} ${isScrolledPastHero ? styles.navbarLogoVisible : ''}`}>
           <img  
             src={nurseryLogo}  
             alt="Evergreen Pushpanjali Nursery Logo"  
-            className={styles.navbarLogoImage} // Dedicated class for image if needed
+            className={styles.navbarLogoImage} 
           />
-          {/* Optionally, add span for text logo next to image if design requires */}
-          {/* <span className={styles.navbarLogoText}>Evergreen</span> */}
         </Link>
 
         <ul className={styles.ul}>
@@ -73,7 +117,7 @@ function Navbar() {
               to="/"
               className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
               onClick={() => { if (location.pathname === '/') window.scrollTo(0,0);}}
-              end // Added 'end' for more precise matching of home route
+              end
             >
               Home
             </NavLink>
@@ -94,7 +138,7 @@ function Navbar() {
               About
             </NavLink>
           </li>
-          {/* Add other common links like Services, Contact if they exist */}
+          {/* Add other common links if they exist */}
           {/*
           <li className={styles.li}>
             <NavLink to="/services" className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}>Services</NavLink>
@@ -104,37 +148,58 @@ function Navbar() {
           </li>
           */}
 
-          {/* Authentication Links - Updated */}
+          {/* Seller Dashboard Link (remains a separate item for now) */}
+          {isAuthenticated && currentUser && currentUser.role === 'seller' && (
+            <li className={`${styles.li} ${styles.navItemSellerDashboard}`}> {/* Add a specific class if needed */}
+              <NavLink 
+                to="/seller/dashboard" // Ensure this route will exist
+                className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+              >
+                Dashboard
+              </NavLink>
+            </li>
+          )}
+
+
+          {/* Authentication/Account Links */}
           {isAuthenticated ? (
-            <>
-              {currentUser && currentUser.role === 'seller' && (
-                <li className={styles.li}>
-                  <NavLink 
-                    to="/seller/dashboard" // Ensure this route will exist
-                    className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
-                  >
-                    Dashboard
-                  </NavLink>
-                </li>
-              )}
-              <li className={styles.li}>
-                <NavLink 
-                  to="/account" // Your existing account route
-                  className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
+            // 👇 Account/Profile dropdown container 👇
+            <li className={`${styles.li} ${styles.navItemPushRight}`} ref={dropdownRef}>
+              <div className={styles.dropdownContainer}>
+                {/* The button/div that triggers the dropdown */}
+                <button 
+                  onClick={handleDropdownToggle} 
+                  className={`${styles.a} ${styles.dropdownTrigger}`} // Style like a link/button
+                  aria-expanded={showDropdown} // Accessibility attribute
+                  aria-haspopup="true" // Accessibility attribute
                 >
-                  {/* Display user's name if available, otherwise "Account" */}
+                  {/* Display user's name, fallback to "Account" */}
                   {currentUser?.name ? `Hi, ${currentUser.name.split(' ')[0]}` : 'Account'}
-                </NavLink>
-              </li>
-              <li className={styles.li}>
-                <button onClick={logout} className={`${styles.a} ${styles.navButtonLink}`}>
-                  Logout
                 </button>
-              </li>
-            </>
+
+                {/* The dropdown menu itself - conditionally rendered */}
+                {showDropdown && (
+                  <div className={styles.dropdownMenu}>
+                    {/* Dropdown Items */}
+                    <NavLink 
+                      to="/account" 
+                      className={({ isActive }) => isActive ? `${styles.dropdownItem} ${styles.dropdownItemActive}` : styles.dropdownItem}
+                      onClick={handleAccountClick} // Close dropdown on click
+                    >
+                      Your Account
+                    </NavLink>
+                    {/* Logout is a button inside the dropdown */}
+                    <button onClick={handleLogout} className={styles.dropdownItemLogout}>
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            </li>
           ) : (
+            // 👇 Login/Signup links when NOT authenticated 👇
             <>
-              <li className={`${styles.li} ${styles.navItemPushRight}`}> 
+              <li className={`${styles.li} ${styles.navItemPushRight}`}> {/* Push Login/Signup to the right */}
                 <NavLink 
                   to="/login" 
                   className={({ isActive }) => isActive ? `${styles.a} ${styles.active}` : styles.a}
